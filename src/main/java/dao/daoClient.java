@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+import metier.modele.Client;
+import dao.JpaUtil;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+/**
+ *
+ * @author njeanne
+ */
+public class daoClient {
+
+    public daoClient() {
+        
+    }
+ 
+    
+    public void ajouterClient(Client c)
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        em.persist (c);
+    }
+    
+    
+    public List<Client> listerClients()
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select c from Client c";
+        Query requete = em.createQuery (jpql);
+        List <Client> resultats = (List <Client>) requete.getResultList();
+        return resultats;
+    }
+    
+    
+    
+    
+    
+}
