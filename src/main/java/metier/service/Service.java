@@ -14,6 +14,7 @@ import dao.daoEmploye;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import metier.modele.Client;
@@ -200,6 +201,60 @@ public class Service {
             JpaUtil.annulerTransaction();
         }
         JpaUtil.fermerEntityManager();
+    }
+    
+    
+    
+    public List <Intervention> getInterventionsClient(Client c){
+        JpaUtil.creerEntityManager();
+        
+        List <Intervention> l = c.getListeInter();
+        
+        JpaUtil.fermerEntityManager();
+        
+        return l;
+    }
+
+    
+    public Intervention getInterventionAct(Employe e){
+        // L'intervention actuelle est la dernière de la liste
+        
+        JpaUtil.creerEntityManager();
+        
+        List <Intervention> l = e.getListeInter();
+        
+        JpaUtil.fermerEntityManager();
+        
+        return l.get(l.size()-1); // pas sûre : méthode d'en dessous plus sûre mais prend plus de taille en mémoire
+        
+        /*AUTRE METHODE :
+        
+        Intervention i = new Intervention();
+        
+        for (Intervention k : l){
+            i=k;
+        }
+        return i;
+        */
+    }
+
+    
+    public List <Intervention> getInterventionJour(Employe e, Date d){
+        JpaUtil.creerEntityManager();
+
+        List <Intervention> inter = new ArrayList<Intervention>();
+
+        List <Intervention> l = e.getListeInter();
+ 
+        for (Intervention i : l){
+            if(i.getHeureF().compareTo(d)==0)
+            {
+                inter.add(i);
+            }
+        }
+
+        JpaUtil.fermerEntityManager();
+        return inter;
     }
    
 }

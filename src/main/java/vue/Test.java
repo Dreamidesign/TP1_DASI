@@ -98,6 +98,22 @@ public class Test {
 
         s.demandeIntervention(c, i);
     }
+    
+    public static void TestGetInterventionsClient(Service s){
+        Intervention i = new Intervention("Faire la vaisselle svp et vite");
+
+        Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
+
+        s.creerClient(c);
+        
+        s.demandeIntervention(c, i);
+        
+        List <Intervention> l = s.getInterventionsClient(c);
+        
+        for (Intervention iv : l)
+            System.out.println(iv);
+    }
+       
 
     public static void main(String[] args){
         
@@ -112,7 +128,11 @@ public class Test {
        //TestCreationEmployes(s);
 
        /** Test demande d'intevention **/
-       TestDemandeIntervention(s);
+       //TestDemandeIntervention(s);
+       
+       /**Test Lister Interventions Client **/
+       TestGetInterventionsClient(s);
+       
 
 
 
