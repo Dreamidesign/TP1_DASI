@@ -8,7 +8,9 @@
 
 package dao;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import metier.modele.Intervention;
 
@@ -55,11 +57,21 @@ public class daoIntervention {
     }
      
      public List<Intervention> getInterventionJour(Employe e, Date d){
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        
+        GregorianCalendar cal2 = (GregorianCalendar)cal.clone();
+        cal2.add(Calendar.DAY_OF_MONTH, 1); //Pour limiter à un jour le gregorian calendar.
+        
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.employe =: e and i.date =:d ";
+        String jpql = "select i from Intervention i where i.employe =:e and i.heureD>=:d and i.heureD<=:a"; //CHANGER LES HEURES DE DEPART EN HEURES DE FIN UNE FOIS QUON AURA GERE LA CLOTURE DES INTERVENTIONS
         Query requete = em.createQuery(jpql);
         requete.setParameter("e",e);
-        requete.setParameter("d",d);
+        requete.setParameter("d",cal.getTime());
+        requete.setParameter("a", cal2.getTime());
         List <Intervention> resultats= (List <Intervention>) requete.getResultList();
         
         return resultats;
