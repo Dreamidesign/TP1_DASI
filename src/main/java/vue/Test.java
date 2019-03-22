@@ -9,9 +9,8 @@ import dao.JpaUtil;
 
 import java.sql.Time;
 import java.util.List;
-import metier.modele.Client;
-import metier.modele.Employe;
-import metier.modele.Intervention;
+
+import metier.modele.*;
 import metier.service.Service;
 
 
@@ -81,7 +80,7 @@ public class Test {
 
     public static void TestDemandeIntervention(Service s)
     {
-        Intervention i = new Intervention("Faire la vaisselle svp et vite");
+        Animal i = new Animal("Croquette", "Faire la vaisselle svp et vite");
 
         Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
 
@@ -93,20 +92,22 @@ public class Test {
 
         s.creerEmploye(e);
 
-        Lister(s);
-        ListerE(s);
+        //Lister(s);
+        //ListerE(s);
 
         s.demandeIntervention(c, i);
     }
     
     public static void TestGetInterventionsClient(Service s){
-        Intervention i = new Intervention("Faire la vaisselle svp et vite");
+        //Intervention i = new Intervention("Faire la vaisselle svp et vite");
+        Incident ii = new Incident("Faire la vaisselle svp et vite");
+        Animal iii = new Animal("Zoe", "Test");
 
         Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
 
         s.creerClient(c);
         
-        s.demandeIntervention(c, i);
+        s.demandeIntervention(c, iii);
         
         List <Intervention> l = s.getInterventionsClient(c);
         

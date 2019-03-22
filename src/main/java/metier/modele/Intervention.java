@@ -6,7 +6,6 @@
 package metier.modele;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -15,6 +14,7 @@ import javax.persistence.*;
  * @author njeanne
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Intervention implements Serializable {
     
     @Id
@@ -28,7 +28,7 @@ public class Intervention implements Serializable {
     private Client client;
     
   
-    private String statut;
+    private Integer statut;
     private String description;
 
     @Temporal(TemporalType.DATE)
@@ -39,7 +39,7 @@ public class Intervention implements Serializable {
     
 
     public Intervention(String description) {
-        this.statut = "en attente";
+        this.statut = 0;
         this.description = description;
         this.heureD = new Date();
     }
@@ -51,7 +51,7 @@ public class Intervention implements Serializable {
         return id;
     }
 
-    public String getStatut() {
+    public Integer getStatut() {
         return statut;
     }
 
@@ -67,7 +67,7 @@ public class Intervention implements Serializable {
         return heureF;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Integer statut) {
         this.statut = statut;
     }
 

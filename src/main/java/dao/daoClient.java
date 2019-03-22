@@ -37,6 +37,14 @@ public class daoClient {
         List <Client> resultats = (List <Client>) requete.getResultList();
         return resultats;
     }
+    /*
+    public Client findClient()
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        string jpql = "select c from Client c where c = :Client";
+
+        return
+    }*/
     
     public Client rechercherClientParId(Client c){
         EntityManager em = JpaUtil.obtenirEntityManager();

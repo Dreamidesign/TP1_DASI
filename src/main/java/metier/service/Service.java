@@ -166,7 +166,7 @@ public class Service {
         JpaUtil.fermerEntityManager();
         return l;
     }
-
+/*
     public boolean attribuerEmploye(Intervention i){
         boolean r = false; //Aucun employe dispo
         List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
@@ -183,20 +183,35 @@ public class Service {
         if(r) i.setEmploye(e);
 
         return r;
-    }
+    } */
 
     public void demandeIntervention(Client c, Intervention i){
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        dI.ajouterIntervention(i);
+        //dI.ajouterIntervention(i);
         i.setClient(c);
+        //JpaUtil.validerTransaction();
 
-        if (attribuerEmploye(i))
+        boolean r = false; //Aucun employe dispo
+        List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
+                i.getHeureD().getMinutes(), i.getHeureD().getSeconds()));
+        Employe e = null;
+        if(l.size() > 0)
         {
-            envoieNotifEmploye(i);
-            i.setStatut("En cours");
+            r = true; //Il y a au moins 1 employe dispo
+            double distance = 100000000;
+            for(Employe ee : l)
+                if (getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
+        }
+
+        if (r)
+        {
+            Employe emp = dE.rechercheParId(e);
+            i.setEmploye(emp);
+            i.setStatut(1);
             dI.ajouterIntervention(i);
             JpaUtil.validerTransaction();
+            envoieNotifEmploye(i);
         }
         else
         {

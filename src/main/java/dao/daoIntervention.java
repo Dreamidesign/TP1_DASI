@@ -43,9 +43,10 @@ public class daoIntervention {
     
      public Intervention getInterventionAct(Employe e){
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.employe = :e and i.status = 'en cours' row number >=1 ";
+        String jpql = "select i from Intervention i where i.employe = :e and i.statut = 1";
         Query requete = em.createQuery(jpql);
         requete.setParameter("e", e);
+        requete.setMaxResults(1);
         Intervention resultat = (Intervention) requete.getSingleResult();
         
         return resultat;
