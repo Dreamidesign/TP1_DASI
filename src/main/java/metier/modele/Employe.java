@@ -37,9 +37,12 @@ public class Employe implements Serializable {
     private String email;
     private String mdp;
     private LatLng coord;
+    private Integer status;
 
     @Basic
     private Time horaireD;
+
+
     @Basic
     private Time horaireF;
 
@@ -52,6 +55,7 @@ public class Employe implements Serializable {
         this.mdp = mdp;
         this.horaireD = horaireD;
         this.horaireF = horaireF;
+        status = 0;
     }
 
     
@@ -139,6 +143,14 @@ public class Employe implements Serializable {
      public void setCoord(LatLng coord) {
          this.coord = coord;
      }
+     
+    public void setStatus(Integer status) {
+       this.status = status;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
 
      @Override
      public String toString() {

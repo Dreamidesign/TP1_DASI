@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import metier.modele.Intervention;
 /**
  *
  * @author njeanne
@@ -37,8 +38,13 @@ public class daoClient {
         return resultats;
     }
     
-    
-    
-    
+    public Client rechercherClientParId(Client c){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select c from Client c where c=:c";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("c", c); //on donne l'entité en paramètre (le c entre guillemets est celui après le :"
+        Client resultat = (Client) requete.getSingleResult();
+        return resultat;
+    }  
     
 }

@@ -41,7 +41,7 @@ public class Service {
     public Service() {
         dC = new daoClient();
         dI = new daoIntervention();
-        dE =  new daoEmploye();
+        dE = new daoEmploye();
     }
 
     public void envoieMailInscription(Client c)
@@ -208,12 +208,9 @@ public class Service {
     
     
     public List <Intervention> getInterventionsClient(Client c){
-        //JpaUtil.creerEntityManager();
-
-        List <Intervention> l = c.getListeInter();
-        
-        //JpaUtil.fermerEntityManager();
-        
+        JpaUtil.creerEntityManager();
+        List <Intervention> l = dI.listerInterventionsClient(c);
+        JpaUtil.fermerEntityManager();
         return l;
     }
 
@@ -222,25 +219,9 @@ public class Service {
         // L'intervention actuelle est la dernière de la liste
         
         JpaUtil.creerEntityManager();
-        
-        List <Intervention> l = e.getListeInter();
-        
+        Intervention i = dI.getInterventionAct(e);
         JpaUtil.fermerEntityManager();
-        
-        return l.get(l.size()-1); // pas sûre : méthode d'en dessous plus sûre mais prend plus de taille en mémoire
-        
-        /*AUTRE METHODE :
-        
-        Intervention i = new Intervention();
-        
-        for (Intervention k : l){
-            i=k;
-        }
         return i;
-
-
-        daoIntervention : select i from intervention i where employee = :empl and status = 'en cours' row number >=1
-        */
     }
 
     

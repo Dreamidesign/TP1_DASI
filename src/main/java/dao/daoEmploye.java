@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import java.sql.Time;
 import java.util.List;
 import java.util.Date;
+import metier.modele.Intervention;
 
 /**
  *
@@ -46,5 +47,5 @@ public class daoEmploye {
         List <Employe> resultats = (List <Employe>) requete.getResultList();
         return resultats;
     }
-
+    
 }

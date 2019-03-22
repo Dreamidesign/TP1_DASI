@@ -8,9 +8,13 @@
 
 package dao;
 
+import java.util.List;
 import metier.modele.Intervention;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import metier.modele.Client;
+import metier.modele.Employe;
 
 /**
  *
@@ -26,5 +30,28 @@ public class daoIntervention {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.persist (i);
     }
+    
+    public List<Intervention> listerInterventionsClient(Client c)
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select i from Intervention i where i.client:c";
+        Query requete = em.createQuery (jpql);
+        requete.setParameter("c", c);
+        List <Intervention> resultats = (List <Intervention>) requete.getResultList();
+        return resultats;
+    }
+    
+     public Intervention getInterventionAct(Employe e){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select i from Intervention i where i.employe = :e and i.status = 'en cours' row number >=1 ";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("e", e);
+        Intervention resultat = (Intervention) requete.getSingleResult();
+        
+        return resultat;
+        
+    }
+
+    
 
 }
