@@ -128,10 +128,10 @@ public class Test {
        //TestCreationEmployes(s);
 
        /** Test demande d'intevention **/
-       //TestDemandeIntervention(s);
+       TestDemandeIntervention(s);
        
        /**Test Lister Interventions Client **/
-       TestGetInterventionsClient(s);
+       //TestGetInterventionsClient(s);
        
 
 

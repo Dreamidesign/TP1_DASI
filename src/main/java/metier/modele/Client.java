@@ -65,7 +65,7 @@ public class Client implements Serializable {
         this.mdp = mdp;
     }
 
-    //public Client() { }
+    public Client() { }
     
 
     public Long getId() {

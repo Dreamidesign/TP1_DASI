@@ -61,7 +61,8 @@ public class Service {
         );
     }
 
-    public void envoieMailEchec(Client c) {
+    public void envoieMailEchec(Client c)
+    {
         StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         mailWriter.println("Bonjour " + c.getPrenom() + ",");
@@ -187,6 +188,7 @@ public class Service {
     public void demandeIntervention(Client c, Intervention i){
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
+        dI.ajouterIntervention(i);
         i.setClient(c);
 
         if (attribuerEmploye(i))
@@ -206,11 +208,11 @@ public class Service {
     
     
     public List <Intervention> getInterventionsClient(Client c){
-        JpaUtil.creerEntityManager();
-        
+        //JpaUtil.creerEntityManager();
+
         List <Intervention> l = c.getListeInter();
         
-        JpaUtil.fermerEntityManager();
+        //JpaUtil.fermerEntityManager();
         
         return l;
     }
@@ -235,6 +237,9 @@ public class Service {
             i=k;
         }
         return i;
+
+
+        daoIntervention : select i from intervention i where employee = :empl and status = 'en cours' row number >=1
         */
     }
 
@@ -253,8 +258,12 @@ public class Service {
             }
         }
 
+        // dI select i from intervention i where employe = e and date = auj
+
         JpaUtil.fermerEntityManager();
         return inter;
     }
+
+
    
 }
