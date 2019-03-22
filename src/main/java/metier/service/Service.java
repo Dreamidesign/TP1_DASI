@@ -95,6 +95,24 @@ public class Service {
         );
 
     }
+    
+      public void envoieNotifClient(Intervention i)
+    {
+        StringWriter message = new StringWriter();
+        PrintWriter notificationWriter = new PrintWriter(message);
+
+        notificationWriter.println("Votre demande d'intervention du  "+i.getHeureD());
+        notificationWriter.print("a été cloturée à  "+i.getHeureF()+".");
+        
+
+        Message.envoyerNotification(
+                i.getEmploye().getNum(),
+                message.toString()
+        );
+
+    }
+    
+    
 
     public LatLng calculCoord(String s)
     {
