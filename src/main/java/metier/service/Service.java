@@ -15,8 +15,9 @@ import java.util.Date;
 import java.util.List;
 
 import metier.modele.*;
+import util.DebugLogger;
 
-import static util.GeoTest.getFlightDistanceInKm;
+//import static util.GeoTest.getFlightDistanceInKm;
 
 /**
  *
@@ -52,6 +53,7 @@ public class Service {
         {
             r = false;
             JpaUtil.annulerTransaction();
+            DebugLogger.log("Impossible de créer le client.");
             serviceAffichage.envoieMailEchec(c);
         }
         JpaUtil.fermerEntityManager();
@@ -102,6 +104,7 @@ public class Service {
             catch(Exception e)
             {
                 JpaUtil.annulerTransaction();
+                DebugLogger.log("Erreur lors de la création de l'employe"+tab[i].getPrenom()+tab[i].getNom());
             }
         }
 
@@ -139,7 +142,7 @@ public class Service {
         {
             double distance = 100000000;
             for(Employe ee : l)
-                if (getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
+                if (serviceGeo.getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
 
             e.setStatus(1);
             i.setEmploye(e);
@@ -151,6 +154,7 @@ public class Service {
         else
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("La demande d'intervention a échoué, aucun employé disponible");
         }
         JpaUtil.fermerEntityManager();
     }
@@ -160,6 +164,7 @@ public class Service {
         JpaUtil.creerEntityManager();
         List <Intervention> l = dI.listerInterventionsClient(c);
         JpaUtil.fermerEntityManager();
+        if(l.size() == 0) DebugLogger.log("Le client n'a aucune interventions");
         return l;
     }
 
@@ -167,7 +172,15 @@ public class Service {
     {
         // L'intervention actuelle est la dernière de la liste
         JpaUtil.creerEntityManager();
-        Intervention i = dI.getInterventionAct(e);
+        Intervention i;
+        try {
+            i = dI.getInterventionAct(e);
+        }
+        catch (Exception ee)
+        {
+            i = null;
+            DebugLogger.log("Aucune intervention en cours");
+        }
         JpaUtil.fermerEntityManager();
         return i;
     }
@@ -185,6 +198,7 @@ public class Service {
     {
         JpaUtil.creerEntityManager();
         Client c = dC.connexion(mail, mdp);
+        if(c == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
         JpaUtil.fermerEntityManager();
         return c;
     }
@@ -193,6 +207,7 @@ public class Service {
     {
         JpaUtil.creerEntityManager();
         Employe e = dE.connexion(mail, mdp);
+        if(e == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
         JpaUtil.fermerEntityManager();
         return e;
     }
@@ -209,6 +224,7 @@ public class Service {
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("Erreur lors de la validation de l'intervention");
         }
         JpaUtil.fermerEntityManager();
 
@@ -227,6 +243,7 @@ public class Service {
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("Erreur lors de l'echec de l'intervention");
         }
         JpaUtil.fermerEntityManager();
 
