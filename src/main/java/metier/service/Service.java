@@ -232,7 +232,6 @@ public class Service {
     
     public Intervention getInterventionAct(Employe e){
         // L'intervention actuelle est la dernière de la liste
-        
         JpaUtil.creerEntityManager();
         Intervention i = dI.getInterventionAct(e);
         JpaUtil.fermerEntityManager();
@@ -242,22 +241,9 @@ public class Service {
     
     public List <Intervention> getInterventionJour(Employe e, Date d){
         JpaUtil.creerEntityManager();
-
-        List <Intervention> inter = new ArrayList<Intervention>();
-
-        List <Intervention> l = e.getListeInter();
- 
-        for (Intervention i : l){
-            if(i.getHeureF().compareTo(d)==0)
-            {
-                inter.add(i);
-            }
-        }
-
-        // dI select i from intervention i where employe = e and date = auj
-
+        List<Intervention> l = dI.getInterventionJour(e, d);
         JpaUtil.fermerEntityManager();
-        return inter;
+        return l;
     }
 
 
