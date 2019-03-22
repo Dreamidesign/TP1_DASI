@@ -17,18 +17,14 @@ import metier.modele.Intervention;
  */
 public class daoClient {
 
-    public daoClient() {
-        
-    }
- 
-    
+    public daoClient() {}
+
     public void ajouterClient(Client c)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
         em.persist (c);
     }
-    
-    
+
     public List<Client> listerClients()
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
@@ -37,16 +33,9 @@ public class daoClient {
         List <Client> resultats = (List <Client>) requete.getResultList();
         return resultats;
     }
-    /*
-    public Client findClient()
-    {
-        EntityManager em = JpaUtil.obtenirEntityManager();
-        string jpql = "select c from Client c where c = :Client";
 
-        return
-    }*/
-    
-    public Client rechercherClientParId(Client c){
+    public Client rechercherClientParId(Client c)
+    {
         EntityManager em = JpaUtil.obtenirEntityManager();
         String jpql = "select c from Client c where c=:c";
         Query requete = em.createQuery(jpql);
@@ -55,7 +44,8 @@ public class daoClient {
         return resultat;
     }
 
-    public Client connexion(String email, String mdp){
+    public Client connexion(String email, String mdp)
+    {
         EntityManager em = JpaUtil.obtenirEntityManager();
         String jpql = "select c from Client c where c.email=:email and c.mdp=:mdp";
         Query requete = em.createQuery(jpql);

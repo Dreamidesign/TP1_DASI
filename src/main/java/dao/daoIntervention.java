@@ -25,8 +25,7 @@ import metier.modele.Employe;
  */
 public class daoIntervention {
 
-    public daoIntervention() {
-    }
+    public daoIntervention() {}
 
     public void ajouterIntervention(Intervention i)
     {
@@ -44,7 +43,8 @@ public class daoIntervention {
         return resultats;
     }
     
-     public Intervention getInterventionAct(Employe e){
+    public Intervention getInterventionAct(Employe e)
+    {
         EntityManager em = JpaUtil.obtenirEntityManager();
         String jpql = "select i from Intervention i where i.employe = :e and i.statut = 1";
         Query requete = em.createQuery(jpql);
@@ -53,10 +53,10 @@ public class daoIntervention {
         Intervention resultat = (Intervention) requete.getSingleResult();
         
         return resultat;
-        
     }
      
-     public List<Intervention> getInterventionJour(Employe e, Date d){
+    public List<Intervention> getInterventionJour(Employe e, Date d)
+    {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(d);
         cal.set(Calendar.HOUR, 0);

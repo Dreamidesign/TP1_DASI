@@ -21,7 +21,7 @@ import metier.modele.Intervention;
  */
 public class daoEmploye {
 
-    public daoEmploye() { }
+    public daoEmploye() {}
 
     public void ajouterEmploye(Employe e)
     {
@@ -41,15 +41,17 @@ public class daoEmploye {
     public List<Employe> listerEmployesDispo(Time d)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select e from Employe e " +
+        /*String jpql = "select e from Employe e " +
                 "where e not in (select distinct i.employe from Intervention i) " +
-                "and e.horaireD <='"+d+"' and e.horaireF >= '"+d+"'";
+                "and e.horaireD <='"+d+"' and e.horaireF >= '"+d+"'";*/
+        String jpql = "select e from Employe e where e.status = 0";
         Query requete = em.createQuery (jpql);
         List <Employe> resultats = (List <Employe>) requete.getResultList();
         return resultats;
     }
 
-    public Employe rechercherEmployeParId(Employe c){
+    public Employe rechercherEmployeParId(Employe c)
+    {
         EntityManager em = JpaUtil.obtenirEntityManager();
         String jpql = "select e from Employe e where e=:e";
         Query requete = em.createQuery(jpql);
@@ -57,7 +59,8 @@ public class daoEmploye {
         return (Employe) requete.getSingleResult();
     }
     
-    public Employe connexion(String email, String mdp){
+    public Employe connexion(String email, String mdp)
+    {
         EntityManager em = JpaUtil.obtenirEntityManager();
         String jpql = "select e from Employe e where e.email=:email and e.mdp=:mdp";
         Query requete = em.createQuery(jpql);
@@ -70,5 +73,12 @@ public class daoEmploye {
         {
             return null;
         }
+    }
+
+    public void setDispo(Employe e, int newStatut)
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        Employe ee = em.find(Employe.class, e.getId());
+        e.setStatus(newStatut);
     }
 }

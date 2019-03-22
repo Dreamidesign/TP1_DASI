@@ -135,7 +135,7 @@ public class Test {
 
         Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
 
-        s.creerClient(c);
+        s.inscrireClient(c);
         
         Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
                 "makeBelgiumgr8again@bg.bg", "banane",
@@ -174,13 +174,13 @@ public class Test {
        //TestCreationEmployes(s);
 
        /** Test demande d'intevention **/
-       //TestDemandeIntervention(s);
+       TestDemandeIntervention(s);
        
        /**Test Lister Interventions Client **/
        //TestGetInterventionsClient(s);
        
        /** Test Get Interventions Jour **/
-       TestGetInterventionsJour(s);
+       //TestGetInterventionsJour(s);
 
        JpaUtil.destroy();
     }
