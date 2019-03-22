@@ -166,24 +166,6 @@ public class Service {
         JpaUtil.fermerEntityManager();
         return l;
     }
-/*
-    public boolean attribuerEmploye(Intervention i){
-        boolean r = false; //Aucun employe dispo
-        List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
-                i.getHeureD().getMinutes(), i.getHeureD().getSeconds()));
-        Employe e = null;
-        if(l.size() > 0)
-        {
-            r = true; //Il y a au moins 1 employe dispo
-            double distance = 100000000;
-            for(Employe ee : l)
-                if (getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
-        }
-
-        if(r) i.setEmploye(e);
-
-        return r;
-    } */
 
     public void demandeIntervention(Client c, Intervention i){
         JpaUtil.creerEntityManager();
@@ -246,12 +228,19 @@ public class Service {
         return l;
     }
 
+    /** Return un client si ok, null sinon **/
     public Client connexionClient(String mail, String mdp)
     {
         JpaUtil.creerEntityManager();
         Client c = dC.connexion(mail, mdp);
         JpaUtil.fermerEntityManager();
         return c;
+    }
+
+    public void validerIntervention(Intervention i, String com)
+    {
+        JpaUtil.creerEntityManager();
+        JpaUtil.fermerEntityManager();
     }
 
 

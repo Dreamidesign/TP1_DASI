@@ -8,7 +8,9 @@
 
 package dao;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import metier.modele.Intervention;
 
@@ -56,10 +58,15 @@ public class daoIntervention {
      
      public List<Intervention> getInterventionJour(Employe e, Date d){
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.employe =: e and i.date =:d ";
+         GregorianCalendar cal = new GregorianCalendar();
+         cal.setTime(d);
+         cal.set(Calendar.HOUR, 0);
+         cal.set(Calendar.MINUTE, 0);
+         cal.set(Calendar.SECOND, 0);
+        String jpql = "select i from Intervention i where i.employe =: e and i.heureD >= :d";
         Query requete = em.createQuery(jpql);
         requete.setParameter("e",e);
-        requete.setParameter("d",d);
+        requete.setParameter("d",cal.getTime());
         List <Intervention> resultats= (List <Intervention>) requete.getResultList();
         
         return resultats;

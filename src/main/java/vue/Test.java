@@ -135,22 +135,22 @@ public class Test {
       
        Service s = new Service();
 
-       /** Tests de l'inscription de plusieurs Clients et de l'unicité des Clients **/
+       /* Tests de l'inscription de plusieurs Clients et de l'unicité des Clients */
        //TestInscriptionClients(s);
 
-       /** Test de la création d'employés et de leur persistence **/
+       /* Test de la création d'employés et de leur persistence */
        //TestCreationEmployes(s);
 
-       /** Test demande d'intevention **/
+       /* Test demande d'intevention */
        //TestDemandeIntervention(s);
        
-       /**Test Lister Interventions Client **/
+       /*Test Lister Interventions Client */
        TestGetInterventionsClient(s);
        
 
-       /** Test connexion **/
-       s.creerClient(new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));
-       System.out.println(s.connexionClient("natan@gmail.com", "margaux"));
+       /* Test connexion */
+       //s.creerClient(new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));
+       //System.out.println(s.connexionClient("natan@gmail.com", "margaux"));
 
        JpaUtil.destroy();
     }
