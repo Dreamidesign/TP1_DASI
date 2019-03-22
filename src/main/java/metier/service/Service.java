@@ -103,10 +103,11 @@ public class Service {
 
         notificationWriter.println("Votre demande d'intervention du  "+i.getHeureD());
         notificationWriter.print("a été cloturée à  "+i.getHeureF()+".");
+        notificationWriter.print(i.getCommentaire());
+        notificationWriter.print("Cordialement" + i.getEmploye().getPrenom());
         
-
         Message.envoyerNotification(
-                i.getEmploye().getNum(),
+                i.getClient().getNum(),
                 message.toString()
         );
 
