@@ -76,6 +76,12 @@ public class daoIntervention {
         
         return resultats;
     }
+
+    public void setParametresIntervention(Intervention i)
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+
+    }
     
 
     

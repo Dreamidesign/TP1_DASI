@@ -258,6 +258,8 @@ public class Service {
     public void validerIntervention(Intervention i, String com)
     {
         JpaUtil.creerEntityManager();
+
+
         JpaUtil.fermerEntityManager();
     }
 
