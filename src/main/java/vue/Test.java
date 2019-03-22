@@ -8,6 +8,7 @@ package vue;
 import dao.JpaUtil;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 import metier.modele.*;
@@ -110,23 +111,55 @@ public class Test {
         Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
                 "makeBelgiumgr8again@bg.bg", "banane",
                 new Time(8,00,00), new Time(23,59,00));
-
+        
         Employe ed = new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0909090909",
                 "makeBelgiumgr8again@bg.bg", "banane",
                 new Time(8,00,00), new Time(23,59,00));
-
+        
         s.creerEmploye(e);
         s.creerEmploye(ed);
-
+        
         s.demandeIntervention(c, iii);
         s.demandeIntervention(c, ii);
-
+        
         List <Intervention> l = s.getInterventionsClient(c);
         
         for (Intervention iv : l)
-
+            
             System.out.println(iv);
     }
+    
+    public static void TestGetInterventionsJour(Service s){
+        Incident ii = new Incident("Faire la vaisselle svp et vite");
+        Animal iii = new Animal("Zoe", "Test");
+
+        Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
+
+        s.creerClient(c);
+        
+        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
+                "makeBelgiumgr8again@bg.bg", "banane",
+                new Time(8,00,00), new Time(23,59,00));
+        
+        Employe ed = new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0909090909",
+                "makeBelgiumgr8again@bg.bg", "banane",
+                new Time(8,00,00), new Time(23,59,00));
+        
+        s.creerEmploye(e);
+        s.creerEmploye(ed);
+        
+        s.demandeIntervention(c, iii);
+        s.demandeIntervention(c, ii);
+        
+ 
+        List <Intervention> l = s.getInterventionJour(ed, new Date());
+        
+         for (Intervention iv : l)
+            
+            System.out.println(iv);
+        
+    }
+    
        
 
     public static void main(String[] args){
@@ -135,22 +168,20 @@ public class Test {
       
        Service s = new Service();
 
-       /* Tests de l'inscription de plusieurs Clients et de l'unicité des Clients */
+       /** Tests de l'inscription de plusieurs Clients et de l'unicité des Clients **/
        //TestInscriptionClients(s);
 
-       /* Test de la création d'employés et de leur persistence */
+       /** Test de la création d'employés et de leur persistence **/
        //TestCreationEmployes(s);
 
-       /* Test demande d'intevention */
+       /** Test demande d'intevention **/
        //TestDemandeIntervention(s);
        
-       /*Test Lister Interventions Client */
-       TestGetInterventionsClient(s);
+       /**Test Lister Interventions Client **/
+       //TestGetInterventionsClient(s);
        
-
-       /* Test connexion */
-       //s.creerClient(new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));
-       //System.out.println(s.connexionClient("natan@gmail.com", "margaux"));
+       /** Test Get Interventions Jour **/
+       TestGetInterventionsJour(s);
 
        JpaUtil.destroy();
     }
