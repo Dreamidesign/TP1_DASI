@@ -83,6 +83,15 @@ public class daoIntervention {
 
     }
     
+    public Intervention rechercherInterventionParId(Intervention i)
+    {
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select e from Employe e where e=:i";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("i", i);
+        return (Intervention) requete.getSingleResult();
+    }
+    
 
     
 

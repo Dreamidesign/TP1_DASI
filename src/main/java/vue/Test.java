@@ -150,7 +150,6 @@ public class Test {
         
         s.demandeIntervention(c, iii);
         s.demandeIntervention(c, ii);
-        
  
         List <Intervention> l = s.getInterventionJour(ed, new Date());
         

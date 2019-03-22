@@ -255,6 +255,14 @@ public class Service {
         JpaUtil.fermerEntityManager();
         return c;
     }
+    
+    public Employe connexionEmploye(String mail, String mdp)
+    {
+        JpaUtil.creerEntityManager();
+        Employe e = dE.connexion(mail, mdp);
+        JpaUtil.fermerEntityManager();
+        return e;
+    }
 
     public void validerIntervention(Intervention i, String com)
     {

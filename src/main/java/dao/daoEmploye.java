@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import java.sql.Time;
 import java.util.List;
 import java.util.Date;
+import metier.modele.Client;
 import metier.modele.Intervention;
 
 /**
@@ -56,8 +57,18 @@ public class daoEmploye {
         return (Employe) requete.getSingleResult();
     }
     
-    public List<Intervention> getInterventionJour(Employe e, Date d){
+    public Employe connexion(String email, String mdp){
         EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select e from Employe e where e.email=:email and e.mdp=:mdp";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("email", email);
+        requete.setParameter("mdp", mdp);
+        try
+        {
+            return (Employe) requete.getSingleResult();
+        } catch (Exception e)
+        {
+            return null;
+        }
     }
-    
 }
