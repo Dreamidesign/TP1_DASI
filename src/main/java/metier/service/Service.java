@@ -17,9 +17,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import metier.modele.Client;
-import metier.modele.Employe;
-import metier.modele.Intervention;
+
+import metier.modele.*;
 import util.Message;
 import util.GeoTest;
 
@@ -82,7 +81,19 @@ public class Service {
         StringWriter message = new StringWriter();
         PrintWriter notificationWriter = new PrintWriter(message);
 
-        notificationWriter.println("Intervention de type ???? demandée le "+i.getHeureD());
+        notificationWriter.print("Intervention de type ");
+        if (i instanceof Animal){
+            notificationWriter.print("Animal");
+        }
+        else if (i instanceof Livraison)
+        {
+            notificationWriter.print("Livraison");
+        }
+        else
+        {
+            notificationWriter.print("Intervention");
+        }
+        notificationWriter.print(" demandée le "+i.getHeureD());
         notificationWriter.print("Pour "+i.getClient().getPrenom()+ " "+i.getClient().getNom()+
                 " ("+i.getClient().getId()+"), ");
         notificationWriter.print(i.getClient().getAdresse()+". <<"+i.getDescription()+" >>.");
@@ -267,8 +278,28 @@ public class Service {
     public void validerIntervention(Intervention i, String com)
     {
         JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        try {
+            dI.setParametresIntervention(i, com, 2);
+            JpaUtil.validerTransaction();
+        }catch (Exception e)
+        {
+            JpaUtil.annulerTransaction();
+        }
+        JpaUtil.fermerEntityManager();
+    }
 
-
+    public void echecIntervention(Intervention i, String com)
+    {
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        try {
+            dI.setParametresIntervention(i, com, 3);
+            JpaUtil.validerTransaction();
+        }catch (Exception e)
+        {
+            JpaUtil.annulerTransaction();
+        }
         JpaUtil.fermerEntityManager();
     }
 

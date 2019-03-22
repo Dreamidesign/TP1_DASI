@@ -77,10 +77,13 @@ public class daoIntervention {
         return resultats;
     }
 
-    public void setParametresIntervention(Intervention i)
+    public void setParametresIntervention(Intervention i, String c, int s)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
-
+        Intervention e = em.find(Intervention.class, i.getId());
+        e.setCommentaire(c);
+        e.setHeureF(new Date());
+        e.setStatut(s);
     }
     
     public Intervention rechercherInterventionParId(Intervention i)
