@@ -188,9 +188,8 @@ public class Service {
     public void demandeIntervention(Client c, Intervention i){
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        //dI.ajouterIntervention(i);
+        c = dC.rechercherClientParId(c); //pour les besoins du test
         i.setClient(c);
-        //JpaUtil.validerTransaction();
 
         boolean r = false; //Aucun employe dispo
         List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
@@ -206,7 +205,8 @@ public class Service {
 
         if (r)
         {
-            Employe emp = dE.rechercheParId(e);
+            Employe emp = dE.rechercherEmployeParId(e);
+            e.setStatus(1);
             i.setEmploye(emp);
             i.setStatut(1);
             dI.ajouterIntervention(i);

@@ -47,5 +47,13 @@ public class daoEmploye {
         List <Employe> resultats = (List <Employe>) requete.getResultList();
         return resultats;
     }
+
+    public Employe rechercherEmployeParId(Employe c){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select e from Employe e where e=:e";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("e", c);
+        return (Employe) requete.getSingleResult();
+    }
     
 }
