@@ -28,8 +28,9 @@ public class Intervention implements Serializable {
     private Client client;
     
   
-    private Integer statut;
+    private Integer statut; //En attente : 0; en cours = 1; validée : 2; echec : 3
     private String description;
+    private String commentaire;
 
     @Temporal(TemporalType.DATE)
     private Date heureD;
@@ -97,6 +98,14 @@ public class Intervention implements Serializable {
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
     @Override
