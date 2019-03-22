@@ -260,6 +260,14 @@ public class Service {
         return inter;
     }
 
+    public Client connexionClient(String mail, String mdp)
+    {
+        JpaUtil.creerEntityManager();
+        Client c = dC.connexion(mail, mdp);
+        JpaUtil.fermerEntityManager();
+        return c;
+    }
+
 
    
 }

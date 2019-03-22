@@ -53,6 +53,21 @@ public class daoClient {
         requete.setParameter("c", c); //on donne l'entité en paramètre (le c entre guillemets est celui après le :"
         Client resultat = (Client) requete.getSingleResult();
         return resultat;
-    }  
+    }
+
+    public Client connexion(String email, String mdp){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select c from Client c where c.email=:email and c.mdp=:mdp";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("email", email);
+        requete.setParameter("mdp", mdp);
+        try
+        {
+            return (Client) requete.getSingleResult();
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
     
 }

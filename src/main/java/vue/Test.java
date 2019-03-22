@@ -129,13 +129,14 @@ public class Test {
        //TestCreationEmployes(s);
 
        /** Test demande d'intevention **/
-       TestDemandeIntervention(s);
+       //TestDemandeIntervention(s);
        
        /**Test Lister Interventions Client **/
        //TestGetInterventionsClient(s);
-       
 
-
+       /** Test connexion **/
+       s.creerClient(new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));
+       System.out.println(s.connexionClient("natan@gmail.com", "margaux"));
 
        JpaUtil.destroy();
     }
