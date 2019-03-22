@@ -56,4 +56,8 @@ public class daoEmploye {
         return (Employe) requete.getSingleResult();
     }
     
+    public List<Intervention> getInterventionJour(Employe e, Date d){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+    }
+    
 }

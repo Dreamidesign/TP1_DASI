@@ -107,11 +107,24 @@ public class Test {
 
         s.creerClient(c);
         
+        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
+                "makeBelgiumgr8again@bg.bg", "banane",
+                new Time(8,00,00), new Time(23,59,00));
+
+        Employe ed = new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0909090909",
+                "makeBelgiumgr8again@bg.bg", "banane",
+                new Time(8,00,00), new Time(23,59,00));
+
+        s.creerEmploye(e);
+        s.creerEmploye(ed);
+
         s.demandeIntervention(c, iii);
-        
+        s.demandeIntervention(c, ii);
+
         List <Intervention> l = s.getInterventionsClient(c);
         
         for (Intervention iv : l)
+
             System.out.println(iv);
     }
        
@@ -132,7 +145,8 @@ public class Test {
        //TestDemandeIntervention(s);
        
        /**Test Lister Interventions Client **/
-       //TestGetInterventionsClient(s);
+       TestGetInterventionsClient(s);
+       
 
        /** Test connexion **/
        s.creerClient(new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));

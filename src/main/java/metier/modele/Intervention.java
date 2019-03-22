@@ -98,4 +98,10 @@ public class Intervention implements Serializable {
     public void setEmploye(Employe employe) {
         this.employe = employe;
     }
+
+    @Override
+    public String toString() {
+        return "Intervention{" + "id=" + id + ", employe=" + employe + ", client=" + client + ", statut=" + statut + ", description=" + description + ", heureD=" + heureD + ", heureF=" + heureF + '}';
+    }
+    
 }

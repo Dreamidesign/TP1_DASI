@@ -8,6 +8,7 @@
 
 package dao;
 
+import java.util.Date;
 import java.util.List;
 import metier.modele.Intervention;
 
@@ -34,7 +35,7 @@ public class daoIntervention {
     public List<Intervention> listerInterventionsClient(Client c)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.client:c";
+        String jpql = "select i from Intervention i where i.client=:c";
         Query requete = em.createQuery (jpql);
         requete.setParameter("c", c);
         List <Intervention> resultats = (List <Intervention>) requete.getResultList();
@@ -52,6 +53,18 @@ public class daoIntervention {
         return resultat;
         
     }
+     
+     public List<Intervention> getInterventionJour(Employe e, Date d){
+        EntityManager em = JpaUtil.obtenirEntityManager();
+        String jpql = "select i from Intervention i where i.employe =: e and i.date =:d ";
+        Query requete = em.createQuery(jpql);
+        requete.setParameter("e",e);
+        requete.setParameter("d",d);
+        List <Intervention> resultats= (List <Intervention>) requete.getResultList();
+        
+        return resultats;
+    }
+    
 
     
 
