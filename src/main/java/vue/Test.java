@@ -16,11 +16,6 @@ import metier.service.Service;
 import sun.security.ssl.Debug;
 import util.DebugLogger;
 
-
-/**
- *
- * @author njeanne
- */
 public class Test {
 
     private static void testFonctionnement(Service s)
@@ -78,9 +73,6 @@ public class Test {
         s.demandeIntervention(current, i3);
         i3 = s.getInterventionAct(i3.getEmploye());
 
-        DebugLogger.log("Fin de l'intervention");
-        s.echecIntervention(i3,"1m d'eau, impossible");
-
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i4 = new Incident("Besoin de pates en toute urgence");
         s.demandeIntervention(current, i4);
@@ -90,7 +82,8 @@ public class Test {
         for(Intervention inter : s.getInterventionsClient(current))
             System.out.println(inter);
 
-
+        DebugLogger.log("Intervention en cours de l'employé de Villeurbanne");
+        System.out.println(s.getInterventionAct(i3.getEmploye()));
 
     }
     
