@@ -21,9 +21,6 @@ public class Animal extends Intervention{
         this.animal = animal;
     }
 
-    
-    
-
     public Animal() {
     }
 
@@ -35,4 +32,9 @@ public class Animal extends Intervention{
         this.animal = animal;
     }
 
+    @Override
+    public String toString() {
+        String s = "---<([********])>---\n\n-- Animal --\n"+animal+"\n"+super.toString();
+        return s;
+    }
 }

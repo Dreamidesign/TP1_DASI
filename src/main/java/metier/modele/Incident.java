@@ -21,4 +21,9 @@ public class Incident extends Intervention {
     public Incident() {
     }
 
+    @Override
+    public String toString() {
+        String s = "---<([********])>---\n\n-- Incident --\n"+super.toString();
+        return s;
+    }
 }

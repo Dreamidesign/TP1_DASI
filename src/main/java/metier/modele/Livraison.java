@@ -45,7 +45,10 @@ public class Livraison extends Intervention {
         this.entreprise = entreprise;
     }
 
-    
-    
-    
+    @Override
+    public String toString() {
+        String s = "---<([********])>---\n\n-- Livraison --\n"
+                +objet+"\n"+entreprise+"\n"+super.toString();
+        return s;
+    }
 }

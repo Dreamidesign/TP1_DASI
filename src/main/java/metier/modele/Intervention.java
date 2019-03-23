@@ -110,7 +110,15 @@ public class Intervention implements Serializable {
 
     @Override
     public String toString() {
-        return "Intervention{" + "id=" + id + ", employe=" + employe + ", client=" + client + ", statut=" + statut + ", description=" + description + ", heureD=" + heureD + ", heureF=" + heureF + '}';
+        String s = "__";
+        if(statut == 0) s+= "En attente";
+        else if(statut == 1) s+= "En cours";
+        else if(statut == 2) s+= "Reussite";
+        else s+= "Echec";
+        s+= "__\n"+client.getEmail()+"\n"+heureD+" - "+heureF+"\n"+"Par "+employe.getPrenom()+" "+employe.getNom()+
+                "\n  Notes : "+description+"\n  Commentaire : "+commentaire;
+        s+= "\n\n---<([********])>---";
+        return s;
     }
     
 }
