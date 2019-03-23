@@ -13,6 +13,7 @@ import java.util.List;
 
 import metier.modele.*;
 import metier.service.Service;
+import sun.security.ssl.Debug;
 import util.DebugLogger;
 
 
@@ -49,6 +50,48 @@ public class Test {
         DebugLogger.log("Historique intervention Employe");
         for(Intervention inte : s.getInterventionJour(ii.getEmploye(), new Date()))
             System.out.println(inte);
+
+        DebugLogger.log("Deconnexion");
+        current = null;
+        DebugLogger.log("Inscription d'un autre client");
+        s.inscrireClient(
+                new Client("Margaux","P", "Mme", "07/08/2010", "5 avenue albert einstein, Villeurbanne",
+                        "0658889900", "maca@gmail.com", "aedi"));
+
+        DebugLogger.log("Test de connexion avec un mot de passe incorrect");
+        current = s.connexionClient("maca@gmail.com", "abc");
+        DebugLogger.log("Test de connexion client avec un mail et un mdp employé");
+        current = s.connexionClient("insa@bg.bg", "insa");
+        DebugLogger.log("Connexion avec le bon mdp");
+        current = s.connexionClient("maca@gmail.com", "aedi");
+
+        DebugLogger.log("Demande d'une intervention");
+        Intervention i2 = new Livraison("Gateau", "Amazon", "Un peu lourd");
+        s.demandeIntervention(current, i2);
+        i2 = s.getInterventionAct(i2.getEmploye());
+
+        DebugLogger.log("Validation de l'intervention");
+        s.validerIntervention(i2,"RAS");
+
+        DebugLogger.log("Demande d'une autre intervention");
+        Intervention i3 = new Incident("Robinet fuit");
+        s.demandeIntervention(current, i3);
+        i3 = s.getInterventionAct(i3.getEmploye());
+
+        DebugLogger.log("Fin de l'intervention");
+        s.echecIntervention(i3,"1m d'eau, impossible");
+
+        DebugLogger.log("Demande d'une autre intervention");
+        Intervention i4 = new Incident("Besoin de pates en toute urgence");
+        s.demandeIntervention(current, i4);
+        i4 = s.getInterventionAct(i4.getEmploye());
+
+        DebugLogger.log("Historique d'intervention du client");
+        for(Intervention inter : s.getInterventionsClient(current))
+            System.out.println(inter);
+
+
+
     }
     
        
