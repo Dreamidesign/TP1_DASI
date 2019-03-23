@@ -20,7 +20,6 @@ public class daoClient {
     public daoClient() {
         
     }
- 
     
     public void ajouterClient(Client c)
     {
