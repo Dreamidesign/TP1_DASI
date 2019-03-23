@@ -63,7 +63,7 @@ public class ServiceAffichage {
         }
         else
         {
-            notificationWriter.print("Intervention");
+            notificationWriter.print("Incident");
         }
         notificationWriter.print(" demandée le "+i.getHeureD());
         notificationWriter.print(" Pour "+i.getClient().getPrenom()+ " "+i.getClient().getNom()+
