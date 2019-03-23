@@ -66,10 +66,10 @@ public class ServiceAffichage {
             notificationWriter.print("Intervention");
         }
         notificationWriter.print(" demandée le "+i.getHeureD());
-        notificationWriter.print("Pour "+i.getClient().getPrenom()+ " "+i.getClient().getNom()+
+        notificationWriter.print(" Pour "+i.getClient().getPrenom()+ " "+i.getClient().getNom()+
                 " ("+i.getClient().getId()+"), ");
         notificationWriter.print(i.getClient().getAdresse()+". <<"+i.getDescription()+" >>.");
-        notificationWriter.println("Trajet : "+
+        notificationWriter.println(" Trajet : "+
                 getFlightDistanceInKm( i.getEmploye().getCoord(),i.getClient().getCoord())+" km.");
 
         Message.envoyerNotification(
@@ -85,9 +85,9 @@ public class ServiceAffichage {
         PrintWriter notificationWriter = new PrintWriter(message);
 
         notificationWriter.println("Votre demande d'intervention du  "+i.getHeureD());
-        notificationWriter.print("a été cloturée à  "+i.getHeureF()+".");
+        notificationWriter.print(" a été cloturée à  "+i.getHeureF()+". ");
         notificationWriter.print(i.getCommentaire());
-        notificationWriter.print("Cordialement" + i.getEmploye().getPrenom());
+        notificationWriter.print(" Cordialement, " + i.getEmploye().getPrenom());
 
         Message.envoyerNotification(
                 i.getClient().getNum(),
