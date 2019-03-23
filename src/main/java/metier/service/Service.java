@@ -140,7 +140,14 @@ public class Service {
         {
             double distance = 100000000;
             for(Employe ee : l)
-                if (serviceGeo.getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
+            {
+                double d = serviceGeo.getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord());
+                if ( d < distance)
+                {
+                    e = ee;
+                    distance = d;
+                }
+            }
 
             e.setStatus(1);
             i.setEmploye(e);
