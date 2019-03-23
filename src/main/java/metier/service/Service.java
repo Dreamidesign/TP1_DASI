@@ -93,18 +93,16 @@ public class Service {
 
         JpaUtil.creerEntityManager();
 
-        for(int i=0; i<tab.length; i++)
+        for (Employe employe : tab)
         {
             JpaUtil.ouvrirTransaction();
-            try{
-                tab[i].setCoord(serviceGeo.calculCoord(tab[i].getAdresse()));
-                dE.ajouterEmploye(tab[i]);
+            try {
+                employe.setCoord(serviceGeo.calculCoord(employe.getAdresse()));
+                dE.ajouterEmploye(employe);
                 JpaUtil.validerTransaction();
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 JpaUtil.annulerTransaction();
-                DebugLogger.log("Erreur lors de la création de l'employe"+tab[i].getPrenom()+tab[i].getNom());
+                DebugLogger.log("Erreur lors de la création de l'employe" + employe.getPrenom() + employe.getNom());
             }
         }
 
@@ -199,6 +197,7 @@ public class Service {
         JpaUtil.creerEntityManager();
         Client c = dC.connexion(mail, mdp);
         if(c == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
+        else DebugLogger.log("Vous êtes connecté !");
         JpaUtil.fermerEntityManager();
         return c;
     }
@@ -208,6 +207,7 @@ public class Service {
         JpaUtil.creerEntityManager();
         Employe e = dE.connexion(mail, mdp);
         if(e == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
+        else DebugLogger.log("Vous êtes connecté !");
         JpaUtil.fermerEntityManager();
         return e;
     }
@@ -217,10 +217,10 @@ public class Service {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         try {
-            dI.setParametresIntervention(i, com, 2);
+            dI.setParametresIntervention(i, com, 2); //Fonctionne mais lie pas a i
+            dE.setDispo(dI.rechercherInterventionParId(i).getEmploye(), 0);
             JpaUtil.validerTransaction();
-            dE.setDispo(i.getEmploye(), 0);
-            serviceAffichage.envoieNotifClient(i);
+            serviceAffichage.envoieNotifClient(dI.rechercherInterventionParId(i));
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
@@ -237,9 +237,9 @@ public class Service {
         JpaUtil.ouvrirTransaction();
         try {
             dI.setParametresIntervention(i, com, 3);
+            dE.setDispo(dI.rechercherInterventionParId(i).getEmploye(), 0);
             JpaUtil.validerTransaction();
-            dE.setDispo(i.getEmploye(), 0);
-            serviceAffichage.envoieNotifClient(i);
+            serviceAffichage.envoieNotifClient(dI.rechercherInterventionParId(i));
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
