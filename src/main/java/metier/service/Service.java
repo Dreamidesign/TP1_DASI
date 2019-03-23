@@ -5,150 +5,57 @@
  */
 package metier.service;
 
-import com.google.maps.model.LatLng;
 import dao.JpaUtil;
 import dao.daoClient;
 import dao.daoIntervention;
 import dao.daoEmploye;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import metier.modele.*;
-import util.Message;
-import util.GeoTest;
+import util.DebugLogger;
 
-import static util.GeoTest.getFlightDistanceInKm;
-
+//import static util.GeoTest.getFlightDistanceInKm;
 
 /**
  *
  * @author njeanne
  */
 public class Service {
-    
-   
-    
-    
     public daoClient dC;
     public daoIntervention dI;
     public daoEmploye dE;
+    public ServiceAffichage serviceAffichage;
+    public ServiceGeo serviceGeo;
+
     public Service() {
         dC = new daoClient();
         dI = new daoIntervention();
         dE = new daoEmploye();
+        serviceAffichage = new ServiceAffichage();
+        serviceGeo = new ServiceGeo();
     }
 
-    public void envoieMailInscription(Client c)
-    {
-        StringWriter corps = new StringWriter();
-        PrintWriter mailWriter = new PrintWriter(corps);
-        mailWriter.println("Bonjour "+c.getPrenom()+",");
-        mailWriter.println("Nous vous confirmons votre inscription au Service Proact'if . Votre numéro de client est : "+c.getId()+".");
-        mailWriter.println();
-        mailWriter.println("A bientôt sur Proact'if !");
-
-        Message.envoyerMail(
-                "contact@proact.if",
-                c.getEmail(),
-                "Bienvenue chez PROACT'IF",
-                corps.toString()
-        );
-    }
-
-    public void envoieMailEchec(Client c)
-    {
-        StringWriter corps = new StringWriter();
-        PrintWriter mailWriter = new PrintWriter(corps);
-        mailWriter.println("Bonjour " + c.getPrenom() + ",");
-        mailWriter.println("Votre inscription sur les services Proact'if a malheureusement échouée...");
-        mailWriter.println("Merci de recommencer ultérieurement");
-
-        Message.envoyerMail(
-                "contact@proact.if",
-                c.getEmail(),
-                "Echec de l'inscription PROACT'IF",
-                corps.toString()
-        );
-    }
-
-    public void envoieNotifEmploye(Intervention i)
-    {
-        StringWriter message = new StringWriter();
-        PrintWriter notificationWriter = new PrintWriter(message);
-
-        notificationWriter.print("Intervention de type ");
-        if (i instanceof Animal){
-            notificationWriter.print("Animal");
-        }
-        else if (i instanceof Livraison)
-        {
-            notificationWriter.print("Livraison");
-        }
-        else
-        {
-            notificationWriter.print("Intervention");
-        }
-        notificationWriter.print(" demandée le "+i.getHeureD());
-        notificationWriter.print("Pour "+i.getClient().getPrenom()+ " "+i.getClient().getNom()+
-                " ("+i.getClient().getId()+"), ");
-        notificationWriter.print(i.getClient().getAdresse()+". <<"+i.getDescription()+" >>.");
-        notificationWriter.println("Trajet : "+
-                getFlightDistanceInKm( i.getEmploye().getCoord(),i.getClient().getCoord())+" km.");
-
-        Message.envoyerNotification(
-                i.getEmploye().getNum(),
-                message.toString()
-        );
-
-    }
-    
-      public void envoieNotifClient(Intervention i)
-    {
-        StringWriter message = new StringWriter();
-        PrintWriter notificationWriter = new PrintWriter(message);
-
-        notificationWriter.println("Votre demande d'intervention du  "+i.getHeureD());
-        notificationWriter.print("a été cloturée à  "+i.getHeureF()+".");
-        notificationWriter.print(i.getCommentaire());
-        notificationWriter.print("Cordialement" + i.getEmploye().getPrenom());
-        
-        Message.envoyerNotification(
-                i.getClient().getNum(),
-                message.toString()
-        );
-
-    }
-    
-    
-
-    public LatLng calculCoord(String s)
-    {
-        return GeoTest.getLatLng(s);
-    }
-
-    public boolean creerClient(Client c)
+    public boolean inscrireClient(Client c)
     {
         boolean r = true;
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         try{
-            c.setCoord(calculCoord(c.getAdresse()));
+            c.setCoord(serviceGeo.calculCoord(c.getAdresse()));
             dC.ajouterClient(c);
             JpaUtil.validerTransaction();
-            envoieMailInscription(c);
+            serviceAffichage.envoieMailInscription(c);
         }
         catch(Exception e)
         {
             r = false;
             JpaUtil.annulerTransaction();
-            envoieMailEchec(c);
+            DebugLogger.log("Impossible de créer le client.");
+            serviceAffichage.envoieMailEchec(c);
         }
-
         JpaUtil.fermerEntityManager();
         return r;
     }
@@ -161,24 +68,45 @@ public class Service {
         return l;      
     }
 
-    public boolean creerEmploye(Employe c)
+    public void initEmploye()
     {
-        boolean r = true;
+        Employe tab[] = {
+                new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
+                        "makeBelgiumgr8again@bg.bg", "banane",
+                        new Time(0, 0, 0), new Time(23,59, 0)),
+                new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0789789088",
+                        "trmp@bg.bg", "merica",
+                        new Time(8, 0, 0), new Time(16, 0, 0)),
+                new Employe("Jean", "Dark", "30 avenue albert einstein, Villeurbanne", "0987657899",
+                        "insa@bg.bg", "insa",
+                        new Time(8,00,00), new Time(23,59,00)),
+                new Employe("Angel", "Amarqué", "70 rue des lilas, Lyon", "0678908766",
+                        "wolkswagen@bg.bg", "GER",
+                        new Time(10, 0, 0), new Time(20,00, 0)),
+                new Employe("Pablito", "Escobar", "01 rue des lilas, Lyon", "7778880089",
+                        "cocahojas@bg.bg", "aina",
+                        new Time(20, 0, 0), new Time(8,0, 0)),
+                new Employe("France", "oies", "5 rue des lilas, Lyon", "0679908766",
+                        "hollande@bg.bg", "macaron",
+                        new Time(17, 0, 0), new Time(5,0, 0))
+        };
+
         JpaUtil.creerEntityManager();
-        JpaUtil.ouvrirTransaction();
-        try{
-            c.setCoord(calculCoord(c.getAdresse()));
-            dE.ajouterEmploye(c);
-            JpaUtil.validerTransaction();
-        }
-        catch(Exception e)
+
+        for (Employe employe : tab)
         {
-            r = false;
-            JpaUtil.annulerTransaction();
+            JpaUtil.ouvrirTransaction();
+            try {
+                employe.setCoord(serviceGeo.calculCoord(employe.getAdresse()));
+                dE.ajouterEmploye(employe);
+                JpaUtil.validerTransaction();
+            } catch (Exception e) {
+                JpaUtil.annulerTransaction();
+                DebugLogger.log("Erreur lors de la création de l'employe" + employe.getPrenom() + employe.getNom());
+            }
         }
 
         JpaUtil.fermerEntityManager();
-        return r;
     }
 
     public List<Employe> listerEmployesDispo(Date d)
@@ -197,7 +125,8 @@ public class Service {
         return l;
     }
 
-    public void demandeIntervention(Client c, Intervention i){
+    public void demandeIntervention(Client c, Intervention i)
+    {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         c = dC.rechercherClientParId(c); //pour les besoins du test
@@ -207,51 +136,55 @@ public class Service {
         List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
                 i.getHeureD().getMinutes(), i.getHeureD().getSeconds()));
         Employe e = null;
-        if(l.size() > 0)
+        if(l.size() > 0) //Il y a au moins 1 employe dispo
         {
-            r = true; //Il y a au moins 1 employe dispo
             double distance = 100000000;
             for(Employe ee : l)
-                if (getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
-        }
+                if (serviceGeo.getFlightDistanceInKm(i.getClient().getCoord(), ee.getCoord()) < distance) e = ee;
 
-        if (r)
-        {
-            Employe emp = dE.rechercherEmployeParId(e);
             e.setStatus(1);
-            i.setEmploye(emp);
+            i.setEmploye(e);
             i.setStatut(1);
             dI.ajouterIntervention(i);
             JpaUtil.validerTransaction();
-            envoieNotifEmploye(i);
+            serviceAffichage.envoieNotifEmploye(i);
         }
         else
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("La demande d'intervention a échoué, aucun employé disponible");
         }
         JpaUtil.fermerEntityManager();
     }
-    
-    
-    
-    public List <Intervention> getInterventionsClient(Client c){
+
+    public List <Intervention> getInterventionsClient(Client c)
+    {
         JpaUtil.creerEntityManager();
         List <Intervention> l = dI.listerInterventionsClient(c);
         JpaUtil.fermerEntityManager();
+        if(l.size() == 0) DebugLogger.log("Le client n'a aucune interventions");
         return l;
     }
 
-    
-    public Intervention getInterventionAct(Employe e){
+    public Intervention getInterventionAct(Employe e)
+    {
         // L'intervention actuelle est la dernière de la liste
         JpaUtil.creerEntityManager();
-        Intervention i = dI.getInterventionAct(e);
+        Intervention i;
+        try {
+            i = dI.getInterventionAct(e);
+        }
+        catch (Exception ee)
+        {
+            i = null;
+            DebugLogger.log("Aucune intervention en cours");
+        }
         JpaUtil.fermerEntityManager();
         return i;
     }
 
-    
-    public List <Intervention> getInterventionJour(Employe e, Date d){
+    public List <Intervention> getInterventionJour(Employe e, Date d)
+    {
         JpaUtil.creerEntityManager();
         List<Intervention> l = dI.getInterventionJour(e, d);
         JpaUtil.fermerEntityManager();
@@ -263,6 +196,8 @@ public class Service {
     {
         JpaUtil.creerEntityManager();
         Client c = dC.connexion(mail, mdp);
+        if(c == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
+        else DebugLogger.log("Vous êtes connecté !");
         JpaUtil.fermerEntityManager();
         return c;
     }
@@ -271,38 +206,47 @@ public class Service {
     {
         JpaUtil.creerEntityManager();
         Employe e = dE.connexion(mail, mdp);
+        if(e == null) DebugLogger.log("Impossible de se connecter, email ou mot de passe incorrect");
+        else DebugLogger.log("Vous êtes connecté !");
         JpaUtil.fermerEntityManager();
         return e;
     }
 
-    public void validerIntervention(Intervention i, String com)
+    public boolean validerIntervention(Intervention i, String com)
     {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         try {
-            dI.setParametresIntervention(i, com, 2);
+            dI.setParametresIntervention(i, com, 2); //Fonctionne mais lie pas a i
+            dE.setDispo(dI.rechercherInterventionParId(i).getEmploye(), 0);
             JpaUtil.validerTransaction();
+            serviceAffichage.envoieNotifClient(dI.rechercherInterventionParId(i));
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("Erreur lors de la validation de l'intervention");
         }
         JpaUtil.fermerEntityManager();
+
+        return true;
     }
 
-    public void echecIntervention(Intervention i, String com)
+    public boolean echecIntervention(Intervention i, String com)
     {
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         try {
             dI.setParametresIntervention(i, com, 3);
+            dE.setDispo(dI.rechercherInterventionParId(i).getEmploye(), 0);
             JpaUtil.validerTransaction();
+            serviceAffichage.envoieNotifClient(dI.rechercherInterventionParId(i));
         }catch (Exception e)
         {
             JpaUtil.annulerTransaction();
+            DebugLogger.log("Erreur lors de l'echec de l'intervention");
         }
         JpaUtil.fermerEntityManager();
+
+        return false;
     }
-
-
-   
 }

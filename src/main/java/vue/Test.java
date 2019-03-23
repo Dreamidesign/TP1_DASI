@@ -13,6 +13,7 @@ import java.util.List;
 
 import metier.modele.*;
 import metier.service.Service;
+import util.DebugLogger;
 
 
 /**
@@ -20,143 +21,34 @@ import metier.service.Service;
  * @author njeanne
  */
 public class Test {
-    
-    public static void AfficherC(Client c)
+
+    private static void testFonctionnement(Service s)
     {
-        System.out.println(c.toString());
-    }
-    public static void AfficherE(Employe c)
-    {
-        System.out.println(c.toString());
-    }
-    
-    public static void Lister(Service s)
-    {
-       List<Client> l = s.listerClients();
-       for(Client c : l)
-           AfficherC(c);
-    }
+        DebugLogger.log("Initialisation des employes");
+        s.initEmploye();
 
-    public static void ListerE(Service s)
-    {
-        List<Employe> l = s.listerEmployesDispo(new Time(10,00,00));
+        DebugLogger.log("Inscription d'un client");
+        s.inscrireClient(new Client("Nathan","J", "Mr", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan@gmail.com", "margaux"));
 
-        for(Employe e : l)
-        {
-            AfficherE(e);
-        }
-    }
+        DebugLogger.log("Connexion...");
+        Client current = s.connexionClient("nathan@gmail.com", "margaux");
 
-    public static void TestInscriptionClients(Service s)
-    {
-        Client cp = new Client("Nathan","LPmeilleur", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.j@gmail.com", "margaux");
+        DebugLogger.log("Demande d'un intervention");
+        Intervention i = new Animal("Kiki", "Il adore le parc et les jeux");
+        s.demandeIntervention(current, i);
 
-        if(s.creerClient(cp)) System.out.println("-------Inscription validée !-------");
-        else System.out.println("-------Echec lors de l'inscription !-------");
-        Lister(s);
+        Intervention ii = s.getInterventionAct(i.getEmploye());
 
-        Client cpp = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.j@gmail.com", "margaux");
+        DebugLogger.log("Validation de l'intervention");
+        s.validerIntervention(ii,"Kiki a été très calme, merci pour ce moment");
 
-        if(s.creerClient(cpp)) System.out.println("-------Inscription validée !-------");
-        else System.out.println("-------Echec lors de l'inscription !-------");
-        Lister(s);
+        DebugLogger.log("Historique d'intervention du client");
+        for(Intervention inter : s.getInterventionsClient(current))
+            System.out.println(inter);
 
-        Client cppp = new Client("Margaux","Paris", "Mme", "04/09/2007", "97 rue des Lilas, Lyon", "0987654678", "margaux.lpm@gmail.com", "nathan");
-
-        if(s.creerClient(cppp)) System.out.println("-------Inscription validée !-------");
-        else System.out.println("-------Echec lors de l'inscription !-------");
-        Lister(s);
-    }
-
-    public static void TestCreationEmployes(Service s)
-    {
-        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(18,00,00));
-
-        if(s.creerEmploye(e)) System.out.println("-------Employee validée !-------");
-        else System.out.println("-------Echec lors de l'employee !-------");
-        ListerE(s);
-    }
-
-    public static void TestDemandeIntervention(Service s)
-    {
-        Animal i = new Animal("Croquette", "Faire la vaisselle svp et vite");
-
-        Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
-
-        s.creerClient(c);
-
-        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(23,59,00));
-
-        s.creerEmploye(e);
-
-        //Lister(s);
-        //ListerE(s);
-
-        s.demandeIntervention(c, i);
-    }
-    
-    public static void TestGetInterventionsClient(Service s){
-        //Intervention i = new Intervention("Faire la vaisselle svp et vite");
-        Incident ii = new Incident("Faire la vaisselle svp et vite");
-        Animal iii = new Animal("Zoe", "Test");
-
-        Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
-
-        s.creerClient(c);
-        
-        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(23,59,00));
-        
-        Employe ed = new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(23,59,00));
-        
-        s.creerEmploye(e);
-        s.creerEmploye(ed);
-        
-        s.demandeIntervention(c, iii);
-        s.demandeIntervention(c, ii);
-        
-        List <Intervention> l = s.getInterventionsClient(c);
-        
-        for (Intervention iv : l)
-            
-            System.out.println(iv);
-    }
-    
-    public static void TestGetInterventionsJour(Service s){
-        Incident ii = new Incident("Faire la vaisselle svp et vite");
-        Animal iii = new Animal("Zoe", "Test");
-
-        Client c = new Client("Nathan","LPM", "Mme", "22/08/2004", "6 rue des Lilas, Lyon", "0658763255", "nathan.jEANNE@gmail.com", "margaux");
-
-        s.creerClient(c);
-        
-        Employe e = new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(23,59,00));
-        
-        Employe ed = new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0909090909",
-                "makeBelgiumgr8again@bg.bg", "banane",
-                new Time(8,00,00), new Time(23,59,00));
-        
-        s.creerEmploye(e);
-        s.creerEmploye(ed);
-        
-        s.demandeIntervention(c, iii);
-        s.demandeIntervention(c, ii);
- 
-        List <Intervention> l = s.getInterventionJour(ed, new Date());
-        
-         for (Intervention iv : l)
-            
-            System.out.println(iv);
-        
+        DebugLogger.log("Historique intervention Employe");
+        for(Intervention inte : s.getInterventionJour(ii.getEmploye(), new Date()))
+            System.out.println(inte);
     }
     
        
@@ -167,20 +59,7 @@ public class Test {
       
        Service s = new Service();
 
-       /** Tests de l'inscription de plusieurs Clients et de l'unicité des Clients **/
-       //TestInscriptionClients(s);
-
-       /** Test de la création d'employés et de leur persistence **/
-       //TestCreationEmployes(s);
-
-       /** Test demande d'intevention **/
-       //TestDemandeIntervention(s);
-       
-       /**Test Lister Interventions Client **/
-       //TestGetInterventionsClient(s);
-       
-       /** Test Get Interventions Jour **/
-       TestGetInterventionsJour(s);
+       testFonctionnement(s);
 
        JpaUtil.destroy();
     }
