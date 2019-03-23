@@ -17,15 +17,10 @@ import metier.modele.Intervention;
  */
 public class daoClient {
 
-<<<<<<< HEAD
     public daoClient() {
         
     }
-    
-=======
-    public daoClient() {}
 
->>>>>>> d708d95371a7429b8205034e0104f2c42df941e8
     public void ajouterClient(Client c)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
