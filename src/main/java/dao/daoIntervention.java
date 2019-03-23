@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import metier.modele.Client;
 import metier.modele.Employe;
+import util.DebugLogger;
 
 /**
  *
@@ -89,7 +90,7 @@ public class daoIntervention {
     public Intervention rechercherInterventionParId(Intervention i)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select e from Employe e where e=:i";
+        String jpql = "select e from Intervention e where e=:i";
         Query requete = em.createQuery(jpql);
         requete.setParameter("i", i);
         return (Intervention) requete.getSingleResult();
