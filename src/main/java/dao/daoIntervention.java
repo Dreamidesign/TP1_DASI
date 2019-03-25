@@ -16,6 +16,8 @@ import metier.modele.Intervention;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
+
 import metier.modele.Client;
 import metier.modele.Employe;
 import util.DebugLogger;
@@ -65,14 +67,14 @@ public class daoIntervention {
         cal.set(Calendar.SECOND, 0);
 
         GregorianCalendar cal2 = (GregorianCalendar)cal.clone();
-        cal2.add(Calendar.DAY_OF_MONTH, 1); //Pour limiter à un jour le gregorian calendar.
+        cal2.add(Calendar.DAY_OF_YEAR, 1); //Pour limiter à un jour le gregorian calendar.
 
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.employe =:e and i.heureF>=:d and i.heureF<=:a"; //CHANGER LES HEURES DE DEPART EN HEURES DE FIN UNE FOIS QUON AURA GERE LA CLOTURE DES INTERVENTIONS
+        String jpql = "select i from Intervention i where i.employe =:e and i.heureD>=:d and i.heureF<=:a";
         Query requete = em.createQuery(jpql);
         requete.setParameter("e",e);
-        requete.setParameter("d",cal.getTime());
-        requete.setParameter("a", cal2.getTime());
+        requete.setParameter("d",cal.getTime(), TemporalType.DATE);
+        requete.setParameter("a", cal2.getTime(),TemporalType.DATE);
         List <Intervention> resultats= (List <Intervention>) requete.getResultList();
         
         return resultats;
