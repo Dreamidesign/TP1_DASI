@@ -29,23 +29,13 @@ public class daoEmploye {
         em.persist (e);
     }
 
-    public List<Employe> listerEmployes(Time d)
-    {
-        EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select e from Employe e where e.horaireD >="+d+" and e.horaireF <= "+d+"";
-        Query requete = em.createQuery (jpql);
-        List <Employe> resultats = (List <Employe>) requete.getResultList();
-        return resultats;
-    }
-
     public List<Employe> listerEmployesDispo(Time d)
     {
         EntityManager em = JpaUtil.obtenirEntityManager();
-        /*String jpql = "select e from Employe e " +
-                "where e not in (select distinct i.employe from Intervention i) " +
-                "and e.horaireD <='"+d+"' and e.horaireF >= '"+d+"'";*/
-        String jpql = "select e from Employe e where e.status = 0";
+        String jpql = "select e from Employe e where e.status = 0 " +
+                "and e.horaireD <=:d and e.horaireF >= :d";
         Query requete = em.createQuery (jpql);
+        requete.setParameter("d",d);
         List <Employe> resultats = (List <Employe>) requete.getResultList();
         return resultats;
     }
