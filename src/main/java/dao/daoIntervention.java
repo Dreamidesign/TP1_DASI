@@ -68,7 +68,7 @@ public class daoIntervention {
         cal2.add(Calendar.DAY_OF_MONTH, 1); //Pour limiter à un jour le gregorian calendar.
 
         EntityManager em = JpaUtil.obtenirEntityManager();
-        String jpql = "select i from Intervention i where i.employe =:e and i.heureD>=:d and i.heureD<=:a"; //CHANGER LES HEURES DE DEPART EN HEURES DE FIN UNE FOIS QUON AURA GERE LA CLOTURE DES INTERVENTIONS
+        String jpql = "select i from Intervention i where i.employe =:e and i.heureF>=:d and i.heureF<=:a"; //CHANGER LES HEURES DE DEPART EN HEURES DE FIN UNE FOIS QUON AURA GERE LA CLOTURE DES INTERVENTIONS
         Query requete = em.createQuery(jpql);
         requete.setParameter("e",e);
         requete.setParameter("d",cal.getTime());
