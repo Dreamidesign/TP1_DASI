@@ -136,8 +136,6 @@ public class Test {
             System.out.println(inter);
 
     }
-    
-       
 
     public static void main(String[] args){
        JpaUtil.init();

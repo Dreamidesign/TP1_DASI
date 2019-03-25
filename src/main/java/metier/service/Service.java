@@ -117,14 +117,6 @@ public class Service {
         return l;
     }
 
-    public List<Employe> listerEmployes(Time t)
-    {
-        JpaUtil.creerEntityManager();
-        List<Employe> l = dE.listerEmployes(t);
-        JpaUtil.fermerEntityManager();
-        return l;
-    }
-
     public void demandeIntervention(Client c, Intervention i)
     {
         JpaUtil.creerEntityManager();
