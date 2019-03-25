@@ -128,12 +128,24 @@ public class Test {
         DebugLogger.log("Récupération de l'intervention en cours de l'employé");
         currentI = s.getInterventionAct(currentE);
 
-        DebugLogger.log("Validation de l'intervention");
+        DebugLogger.log("Echec de l'intervention");
         s.echecIntervention(currentI, "Inaccessible");
+
+        DebugLogger.log("Historique d'intervention du jour de l'employe");
+        for(Intervention inter : s.getInterventionJour(currentE, new Date()))
+            System.out.println(inter);
+
+        DebugLogger.log("Deconnexion...");
+        current = null;
+
+        DebugLogger.log("Connexion client");
+        current = s.connexionClient("maca@gmail.com", "aedi");
 
         DebugLogger.log("Historique d'intervention du client");
         for(Intervention inter : s.getInterventionsClient(current))
             System.out.println(inter);
+
+
 
     }
 
