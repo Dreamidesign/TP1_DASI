@@ -59,14 +59,6 @@ public class Service {
         JpaUtil.fermerEntityManager();
         return r;
     }
-    
-    public List<Client> listerClients()
-    {
-        JpaUtil.creerEntityManager();
-        List<Client> l = dC.listerClients();
-        JpaUtil.fermerEntityManager();
-        return l;      
-    }
 
     public void initEmploye()
     {
@@ -74,7 +66,7 @@ public class Service {
                 new Employe("Barack", "Afritte", "8 rue des lilas, Lyon", "0909090909",
                         "makeBelgiumgr8again@bg.bg", "banane",
                         new Time(0, 0, 0), new Time(23,59, 0)),
-                new Employe("Trump", "Ette", "12 rue des lilas, Lyon", "0789789088",
+                new Employe("Trump", "Ette", "12 rue vaubans, Lyon", "0789789088",
                         "trmp@bg.bg", "merica",
                         new Time(8, 0, 0), new Time(16, 0, 0)),
                 new Employe("Jean", "Dark", "30 avenue albert einstein, Villeurbanne", "0987657899",
@@ -83,7 +75,7 @@ public class Service {
                 new Employe("Angel", "Amarqué", "70 rue des lilas, Lyon", "0678908766",
                         "wolkswagen@bg.bg", "GER",
                         new Time(10, 0, 0), new Time(20,00, 0)),
-                new Employe("Pablito", "Escobar", "01 rue des lilas, Lyon", "7778880089",
+                new Employe("Pablito", "Escobar", "place bellecours, Lyon", "7778880089",
                         "cocahojas@bg.bg", "aina",
                         new Time(20, 0, 0), new Time(8,0, 0)),
                 new Employe("France", "oies", "5 rue des lilas, Lyon", "0679908766",
@@ -107,14 +99,6 @@ public class Service {
         }
 
         JpaUtil.fermerEntityManager();
-    }
-
-    public List<Employe> listerEmployesDispo(Date d)
-    {
-        JpaUtil.creerEntityManager();
-        List<Employe> l = dE.listerEmployesDispo(new Time(d.getHours(), d.getMinutes(), d.getSeconds()));
-        JpaUtil.fermerEntityManager();
-        return l;
     }
 
     public void demandeIntervention(Client c, Intervention i)
