@@ -61,7 +61,8 @@ public class Test {
             DebugLogger.log("Connexion...");
             current = s.connexionClient(email, mdp);
         }
-
+        
+        
         //////////// MODULE DE DEMANDE D'UNE INTERVENTION : ANIMAL ////////////
         DebugLogger.log("Demande d'une intervention");
 
@@ -88,17 +89,18 @@ public class Test {
         DebugLogger.log("Connexion en tant qu'employé");
         Employe currentE = s.connexionEmploye("insa@bg.bg", "insa");
 
+        /* INUTILE CAR NE MARCHE PAS / EFFECTUEE PAR QQ DAUTRE
         DebugLogger.log("Récupération de l'intervention en cours de l'employé");
         Intervention currentI = s.getInterventionAct(currentE);
 
-        //////////// VALIDATION DE L'INTERVENTION /////////////
+        //////////// VALIDATION DE L'INTERVENTION QUI NE MARCHE PAS CAR ELLE A ETE EFFECTUEE PAR QQUN DAUTRE /////////////
         DebugLogger.log("Validation de l'intervention");
         s.validerIntervention(currentI, "Kiki a été très calme, merci pour ce moment");
 
-        ////////// MODULE HISTORIQUE INTERVENTION EMPLOYE /////////
+        ////////// MODULE HISTORIQUE INTERVENTION EMPLOYE / vide (logique) /////////
         DebugLogger.log("Historique intervention Employe");
         for(Intervention inte : s.getInterventionJour(currentE, new Date()))
-            System.out.println(inte);
+            System.out.println(inte);*/
 
         ///////// DECONNEXION EMPLOYE ///////
         DebugLogger.log("Deconnexion...");
@@ -140,6 +142,7 @@ public class Test {
 
         i = new Incident(des);
         s.demandeIntervention(current, i);
+        
 
         /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
         DebugLogger.log("Historique d'intervention du client");
@@ -150,14 +153,19 @@ public class Test {
         s.inscrireClient(
                 new Client("Margaux","P", "Mme", "07/08/2010", "5 avenue albert " +
                         "einstein, Villeurbanne", "0658889900", "maca@gmail.com", "aedi"));
+        
 
+        //////////////TESTS DE CONNEXION///////////////////////// 
         DebugLogger.log("Test de connexion avec un mot de passe incorrect");
         current = s.connexionClient("maca@gmail.com", "abc");
+        
         DebugLogger.log("Test de connexion client avec un mail et un mdp employé");
         current = s.connexionClient("insa@bg.bg", "insa");
+        
         DebugLogger.log("Connexion avec le bon mdp");
         current = s.connexionClient("maca@gmail.com", "aedi");
 
+        ///////////ON DEMANDE D'AUTRES INTERVENTIONS//////////////
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i3 = new Incident("Robinet fuit");
         s.demandeIntervention(current, i3);
@@ -170,20 +178,19 @@ public class Test {
         s.demandeIntervention(current, i4);
         Employe a = i4.getEmploye();
         DebugLogger.log("Echec de l'intervention");
-        s.echecIntervention(i4,"erreur lors de l'intervention, je n'ai pas pu la réaliserz");
+        s.echecIntervention(i4,"Erreur lors de l'intervention, je n'ai pas pu la réaliser");
         
         DebugLogger.log("On affiche l'historique de l'employé ayant réalisé i4");
         a.getListeInter();
 
+        
         /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
         DebugLogger.log("Historique d'intervention du client");
         for(Intervention inter : s.getInterventionsClient(current))
             System.out.println(inter);
-
-
-        /*DebugLogger.log("Intervention en cours de l'employé de Villeurbanne");
-        System.out.println(s.getInterventionAct(i3.getEmploye()));*/
         
+        //ON TESTE 
+        /*
         DebugLogger.log("On ajoute encore 4 interventions pour occuper tous les employés");
         Intervention tabInterv[] = {
                 new Incident("Commande de caviar"),
@@ -196,23 +203,24 @@ public class Test {
         {
             s.demandeIntervention(current, iii);
             iii = s.getInterventionAct(i.getEmploye());
-        }
-
+        }*/
+        /*
         DebugLogger.log("Ajout d'une intervention supplémentaire");
         Intervention i5 = new Incident("Repassage costume");
         s.demandeIntervention(current, i5);
 
         DebugLogger.log("Historique d'intervention du client");
         for(Intervention inter : s.getInterventionsClient(current))
-            System.out.println(inter);
+            System.out.println(inter);*/
 
         DebugLogger.log("Deconnexion...");
 
+        /*PARTIE INUTILE CAR LECHEC A ETE TESTE PLUS HAUT
         DebugLogger.log("Connexion en tant qu'employé");
         currentE = s.connexionEmploye("insa@bg.bg", "insa");
 
         DebugLogger.log("Récupération de l'intervention en cours de l'employé");
-        currentI = s.getInterventionAct(currentE);
+        Intervention currentI = s.getInterventionAct(currentE);
 
         DebugLogger.log("Validation de l'intervention");
         s.validerIntervention(currentI, "RAS");
@@ -220,6 +228,7 @@ public class Test {
         DebugLogger.log("Deconnexion...");
         currentE = null;
 
+        
         DebugLogger.log("Connexion en tant qu'employé");
         currentE = s.connexionEmploye("hollande@bg.bg", "macaron");
 
@@ -236,6 +245,8 @@ public class Test {
         DebugLogger.log("Deconnexion...");
         current = null;
 
+        */ 
+        
         DebugLogger.log("Connexion client");
         current = s.connexionClient("maca@gmail.com", "aedi");
 
