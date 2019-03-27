@@ -63,7 +63,7 @@ public class Test {
         }
 
         //////////// MODULE DE DEMANDE D'UNE INTERVENTION : ANIMAL ////////////
-        DebugLogger.log("Demande d'un intervention");
+        DebugLogger.log("Demande d'une intervention");
 
         System.out.println("----- Demande d'une intervention de type : Animal -----");
         System.out.println("Animal de compagnie");
@@ -132,7 +132,7 @@ public class Test {
         s.demandeIntervention(current, i);
 
         //////////// MODULE DE DEMANDE D'UNE INTERVENTION : INCIDENT ////////////
-        DebugLogger.log("Demande d'un intervention");
+        DebugLogger.log("Demande d'une intervention");
 
         System.out.println("----- Demande d'une intervention de type : Incident -----");
         System.out.println("Description : ");
@@ -146,7 +146,7 @@ public class Test {
         for(Intervention inter : s.getInterventionsClient(current))
             System.out.println(inter);
 
-        /*DebugLogger.log("Inscription d'un autre client");
+        DebugLogger.log("Inscription d'un autre client");
         s.inscrireClient(
                 new Client("Margaux","P", "Mme", "07/08/2010", "5 avenue albert " +
                         "einstein, Villeurbanne", "0658889900", "maca@gmail.com", "aedi"));
@@ -156,17 +156,24 @@ public class Test {
         DebugLogger.log("Test de connexion client avec un mail et un mdp employé");
         current = s.connexionClient("insa@bg.bg", "insa");
         DebugLogger.log("Connexion avec le bon mdp");
-        current = s.connexionClient("maca@gmail.com", "aedi");*/
+        current = s.connexionClient("maca@gmail.com", "aedi");
 
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i3 = new Incident("Robinet fuit");
         s.demandeIntervention(current, i3);
         //i3 = s.getInterventionAct(i3.getEmploye());
-
+        DebugLogger.log("Validation de l'intervention");
+        s.validerIntervention(i3, "RAS");
+                
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i4 = new Incident("Besoin de pates en toute urgence");
         s.demandeIntervention(current, i4);
-        //i4 = s.getInterventionAct(i4.getEmploye());
+        Employe a = i4.getEmploye();
+        DebugLogger.log("Echec de l'intervention");
+        s.echecIntervention(i4,"erreur lors de l'intervention, je n'ai pas pu la réaliserz");
+        
+        DebugLogger.log("On affiche l'historique de l'employé ayant réalisé i4");
+        a.getListeInter();
 
         /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
         DebugLogger.log("Historique d'intervention du client");
@@ -174,11 +181,9 @@ public class Test {
             System.out.println(inter);
 
 
-
-
-        DebugLogger.log("Intervention en cours de l'employé de Villeurbanne");
-        System.out.println(s.getInterventionAct(i3.getEmploye()));
-
+        /*DebugLogger.log("Intervention en cours de l'employé de Villeurbanne");
+        System.out.println(s.getInterventionAct(i3.getEmploye()));*/
+        
         DebugLogger.log("On ajoute encore 4 interventions pour occuper tous les employés");
         Intervention tabInterv[] = {
                 new Incident("Commande de caviar"),
@@ -190,7 +195,7 @@ public class Test {
         for(Intervention iii : tabInterv)
         {
             s.demandeIntervention(current, iii);
-            //iii = s.getInterventionAct(i.getEmploye());
+            iii = s.getInterventionAct(i.getEmploye());
         }
 
         DebugLogger.log("Ajout d'une intervention supplémentaire");
