@@ -68,19 +68,19 @@ public class Service {
                         new Time(0, 0, 0), new Time(23,59, 0)),
                 new Employe("Trump", "Ette", "12 rue vaubans, Lyon", "0789789088",
                         "trmp@bg.bg", "merica",
-                        new Time(8, 0, 0), new Time(16, 0, 0)),
+                        new Time(8, 0, 0), new Time(23, 59, 0)),
                 new Employe("Jean", "Dark", "30 avenue albert einstein, Villeurbanne", "0987657899",
                         "insa@bg.bg", "insa",
                         new Time(8,00,00), new Time(23,59,00)),
                 new Employe("Angel", "Amarqué", "70 rue des lilas, Lyon", "0678908766",
                         "wolkswagen@bg.bg", "GER",
-                        new Time(10, 0, 0), new Time(20,00, 0)),
+                        new Time(10, 0, 0), new Time(23,59, 0)),
                 new Employe("Pablito", "Escobar", "place bellecours, Lyon", "7778880089",
                         "cocahojas@bg.bg", "aina",
-                        new Time(20, 0, 0), new Time(8,0, 0)),
+                        new Time(11, 0, 0), new Time(12,0, 0)),
                 new Employe("France", "oies", "5 rue des lilas, Lyon", "0679908766",
                         "hollande@bg.bg", "macaron",
-                        new Time(17, 0, 0), new Time(5,0, 0))
+                        new Time(6, 0, 0), new Time(7,0, 0))
         };
 
         JpaUtil.creerEntityManager();
