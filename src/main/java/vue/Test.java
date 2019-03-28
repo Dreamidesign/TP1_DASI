@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vue;
 
 import dao.JpaUtil;
-
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import metier.modele.*;
 import metier.service.Service;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import sun.security.ssl.Debug;
 import util.DebugLogger;
 
 public class Test {
@@ -48,7 +39,6 @@ public class Test {
 
         s.inscrireClient(new Client(prenom,nom, civilite, dob, adresse, numero, email, mdp));
 
-
         //////////// MODULE DE CONNEXION ////////////
         System.out.println("----- Connectez vous -----");
         Client current = null;
@@ -61,8 +51,7 @@ public class Test {
             DebugLogger.log("Connexion...");
             current = s.connexionClient(email, mdp);
         }
-        
-        
+
         //////////// MODULE DE DEMANDE D'UNE INTERVENTION : ANIMAL ////////////
         DebugLogger.log("Demande d'une intervention");
 
@@ -81,17 +70,17 @@ public class Test {
             System.out.println(inter);
 
         ////////// DECONNEXION CLIENT ///////////
-
         DebugLogger.log("Deconnexion...");
         current = null;
 
         /////////// MODULE DE RECUPERATION DE l'INTERVENTION EN COURS ///////////
         DebugLogger.log("Connexion en tant qu'employé");
-        Employe currentE = s.connexionEmploye("insa@bg.bg", "insa");
+        Employe intE = i.getEmploye();
+        Employe currentE = s.connexionEmploye(intE.getEmail(), intE.getMdp());
 
-        /* INUTILE CAR NE MARCHE PAS / EFFECTUEE PAR QQ DAUTRE
         DebugLogger.log("Récupération de l'intervention en cours de l'employé");
         Intervention currentI = s.getInterventionAct(currentE);
+        System.out.println(currentI);
 
         //////////// VALIDATION DE L'INTERVENTION QUI NE MARCHE PAS CAR ELLE A ETE EFFECTUEE PAR QQUN DAUTRE /////////////
         DebugLogger.log("Validation de l'intervention");
@@ -100,7 +89,7 @@ public class Test {
         ////////// MODULE HISTORIQUE INTERVENTION EMPLOYE / vide (logique) /////////
         DebugLogger.log("Historique intervention Employe");
         for(Intervention inte : s.getInterventionJour(currentE, new Date()))
-            System.out.println(inte);*/
+            System.out.println(inte);
 
         ///////// DECONNEXION EMPLOYE ///////
         DebugLogger.log("Deconnexion...");
@@ -142,7 +131,6 @@ public class Test {
 
         i = new Incident(des);
         s.demandeIntervention(current, i);
-        
 
         /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
         DebugLogger.log("Historique d'intervention du client");
@@ -153,7 +141,6 @@ public class Test {
         s.inscrireClient(
                 new Client("Margaux","P", "Mme", "07/08/2010", "5 avenue albert " +
                         "einstein, Villeurbanne", "0658889900", "maca@gmail.com", "aedi"));
-        
 
         //////////////TESTS DE CONNEXION///////////////////////// 
         DebugLogger.log("Test de connexion avec un mot de passe incorrect");
@@ -169,71 +156,17 @@ public class Test {
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i3 = new Incident("Robinet fuit");
         s.demandeIntervention(current, i3);
-        //i3 = s.getInterventionAct(i3.getEmploye());
-        DebugLogger.log("Validation de l'intervention");
-        s.validerIntervention(i3, "RAS");
                 
         DebugLogger.log("Demande d'une autre intervention");
         Intervention i4 = new Incident("Besoin de pates en toute urgence");
         s.demandeIntervention(current, i4);
-        Employe a = i4.getEmploye();
-        DebugLogger.log("Echec de l'intervention");
-        s.echecIntervention(i4,"Erreur lors de l'intervention, je n'ai pas pu la réaliser");
         
-        DebugLogger.log("On affiche l'historique de l'employé ayant réalisé i4");
-        a.getListeInter();
-
-        
-        /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
-        DebugLogger.log("Historique d'intervention du client");
-        for(Intervention inter : s.getInterventionsClient(current))
-            System.out.println(inter);
-        
-        //ON TESTE 
-        /*
-        DebugLogger.log("On ajoute encore 4 interventions pour occuper tous les employés");
-        Intervention tabInterv[] = {
-                new Incident("Commande de caviar"),
-                new Incident("Besoin de shampoing"),
-                new Animal("Chouquette","-"),
-                new Livraison("colis", "UPS","Laisser sur le pallier"),
-        };
-
-        for(Intervention iii : tabInterv)
-        {
-            s.demandeIntervention(current, iii);
-            iii = s.getInterventionAct(i.getEmploye());
-        }*/
-        /*
-        DebugLogger.log("Ajout d'une intervention supplémentaire");
-        Intervention i5 = new Incident("Repassage costume");
-        s.demandeIntervention(current, i5);
-
-        DebugLogger.log("Historique d'intervention du client");
-        for(Intervention inter : s.getInterventionsClient(current))
-            System.out.println(inter);*/
-
-        DebugLogger.log("Deconnexion...");
-
-        /*PARTIE INUTILE CAR LECHEC A ETE TESTE PLUS HAUT
-        DebugLogger.log("Connexion en tant qu'employé");
-        currentE = s.connexionEmploye("insa@bg.bg", "insa");
-
-        DebugLogger.log("Récupération de l'intervention en cours de l'employé");
-        Intervention currentI = s.getInterventionAct(currentE);
-
-        DebugLogger.log("Validation de l'intervention");
-        s.validerIntervention(currentI, "RAS");
-
-        DebugLogger.log("Deconnexion...");
-        currentE = null;
-
-        
-        DebugLogger.log("Connexion en tant qu'employé");
-        currentE = s.connexionEmploye("hollande@bg.bg", "macaron");
+        DebugLogger.log("On se connecte en tant qu'employe");
+        currentE = s.connexionEmploye(intE.getEmail(), intE.getMdp());
 
         DebugLogger.log("Récupération de l'intervention en cours de l'employé");
         currentI = s.getInterventionAct(currentE);
+        System.out.println(currentI);
 
         DebugLogger.log("Echec de l'intervention");
         s.echecIntervention(currentI, "Inaccessible");
@@ -243,13 +176,22 @@ public class Test {
             System.out.println(inter);
 
         DebugLogger.log("Deconnexion...");
+        currentE = null;
+
+        //////////// MODULE DE CONNEXION ////////////
+        System.out.println("----- Connectez vous -----");
         current = null;
-
-        */ 
+        while(current == null)
+        {
+            System.out.println("Adresse email :");
+            email = sc.nextLine();
+            System.out.println("Mot de passe : ");
+            mdp = sc.nextLine();
+            DebugLogger.log("Connexion...");
+            current = s.connexionClient(email, mdp);
+        }
         
-        DebugLogger.log("Connexion client");
-        current = s.connexionClient("maca@gmail.com", "aedi");
-
+        /////////// MODULE HISTORIQUE INTERVENTION CLIENT ///////////
         DebugLogger.log("Historique d'intervention du client");
         for(Intervention inter : s.getInterventionsClient(current))
             System.out.println(inter);
@@ -261,7 +203,4 @@ public class Test {
        testFonctionnement(s);
        JpaUtil.destroy();
     }
-
-    
-    
 }
