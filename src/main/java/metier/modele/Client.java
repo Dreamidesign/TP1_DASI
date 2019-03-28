@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import com.google.maps.model.LatLng;
@@ -14,11 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- *
- * @author njeanne
- */
 @Entity
 public class Client implements Serializable {
     
@@ -57,7 +47,6 @@ public class Client implements Serializable {
             e.printStackTrace();
         }
 
-
         this.ddn = ddn;
         this.adresse = adresse;
         this.num = num;
@@ -66,7 +55,6 @@ public class Client implements Serializable {
     }
 
     public Client() { }
-    
 
     public Long getId() {
         return id;
@@ -147,7 +135,6 @@ public class Client implements Serializable {
     public List<Intervention> getListeInter() {
         return listeInter;
     }
-
 
     @Override
     public String toString() {

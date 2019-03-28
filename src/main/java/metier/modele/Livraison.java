@@ -1,17 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
-import java.time.LocalTime;
 import javax.persistence.Entity;
 
-/**
- *
- * @author njeanne
- */
 @Entity
 public class Livraison extends Intervention {
     
@@ -24,10 +14,7 @@ public class Livraison extends Intervention {
         this.entreprise = entreprise;
     }
 
-    
-
-    public Livraison() {
-    }
+    public Livraison() { }
 
     public String getObjet() {
         return objet;

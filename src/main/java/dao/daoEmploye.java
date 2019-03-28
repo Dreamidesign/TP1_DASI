@@ -1,24 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import metier.modele.Employe;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.sql.Time;
 import java.util.List;
-import java.util.Date;
-import metier.modele.Client;
-import metier.modele.Intervention;
 
-/**
- *
- * @author njeanne
- */
 public class daoEmploye {
 
     public daoEmploye() {}

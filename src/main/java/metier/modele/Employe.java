@@ -1,8 +1,3 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import com.google.maps.model.LatLng;
@@ -14,11 +9,6 @@ import java.time.LocalTime;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
- /**
- *
- * @author njeanne
- */
 
 @Entity
 public class Employe implements Serializable {
@@ -42,7 +32,6 @@ public class Employe implements Serializable {
     @Basic
     private Time horaireD;
 
-
     @Basic
     private Time horaireF;
 
@@ -58,11 +47,7 @@ public class Employe implements Serializable {
         status = 0;
     }
 
-    
-    
-    public Employe() {
-    }
-    
+    public Employe() { }
 
     public Long getId() {
         return id;

@@ -7,13 +7,9 @@ public class ServiceGeo {
     public ServiceGeo() {}
 
     public LatLng calculCoord(String s)
-    {
-        return GeoTest.getLatLng(s);
-    }
+    { return GeoTest.getLatLng(s);}
 
-    public double toRad(double angleInDegree) {
-        return angleInDegree * Math.PI / 180.0;
-    }
+    public double toRad(double angleInDegree) { return angleInDegree * Math.PI / 180.0; }
 
     public double getFlightDistanceInKm(LatLng origin, LatLng destination) {
 

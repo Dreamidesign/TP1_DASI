@@ -1,11 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- *
- */
-
-
 package dao;
 
 import java.util.Calendar;
@@ -13,19 +5,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import metier.modele.Intervention;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
-
 import metier.modele.Client;
 import metier.modele.Employe;
-import util.DebugLogger;
 
-/**
- *
- * @author njeanne
- */
 public class daoIntervention {
 
     public daoIntervention() {}
@@ -54,7 +39,6 @@ public class daoIntervention {
         requete.setParameter("e", e);
         requete.setMaxResults(1);
         Intervention resultat = (Intervention) requete.getSingleResult();
-        
         return resultat;
     }
      
@@ -97,8 +81,4 @@ public class daoIntervention {
         requete.setParameter("i", i);
         return (Intervention) requete.getSingleResult();
     }
-    
-
-    
-
 }

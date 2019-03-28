@@ -1,28 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.service;
 
 import dao.JpaUtil;
 import dao.daoClient;
 import dao.daoIntervention;
 import dao.daoEmploye;
-
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
-
 import metier.modele.*;
 import util.DebugLogger;
 
-//import static util.GeoTest.getFlightDistanceInKm;
-
-/**
- *
- * @author njeanne
- */
 public class Service {
     public daoClient dC;
     public daoIntervention dI;
@@ -74,7 +61,7 @@ public class Service {
                         new Time(8,00,00), new Time(23,59,00)),
                 new Employe("Angel", "Amarqué", "70 rue des lilas, Lyon", "0678908766",
                         "wolkswagen@bg.bg", "GER",
-                        new Time(10, 0, 0), new Time(23,59, 0)),
+                        new Time(18, 0, 0), new Time(23,59, 0)),
                 new Employe("Pablito", "Escobar", "place bellecours, Lyon", "7778880089",
                         "cocahojas@bg.bg", "aina",
                         new Time(11, 0, 0), new Time(12,0, 0)),
@@ -84,7 +71,6 @@ public class Service {
         };
 
         JpaUtil.creerEntityManager();
-
         for (Employe employe : tab)
         {
             JpaUtil.ouvrirTransaction();
@@ -97,7 +83,6 @@ public class Service {
                 DebugLogger.log("Erreur lors de la création de l'employe" + employe.getPrenom() + employe.getNom());
             }
         }
-
         JpaUtil.fermerEntityManager();
     }
 
@@ -107,8 +92,6 @@ public class Service {
         JpaUtil.ouvrirTransaction();
         c = dC.rechercherClientParId(c); //pour les besoins du test
         i.setClient(c);
-
-        boolean r = false; //Aucun employe dispo
         List<Employe> l = dE.listerEmployesDispo(new Time(i.getHeureD().getHours(),
                 i.getHeureD().getMinutes(), i.getHeureD().getSeconds()));
         Employe e = null;
@@ -124,7 +107,6 @@ public class Service {
                     distance = d;
                 }
             }
-
             e.setStatus(1);
             i.setEmploye(e);
             i.setStatut(1);
@@ -210,7 +192,6 @@ public class Service {
             DebugLogger.log("Erreur lors de la validation de l'intervention");
         }
         JpaUtil.fermerEntityManager();
-
         return true;
     }
 
@@ -229,7 +210,6 @@ public class Service {
             DebugLogger.log("Erreur lors de l'echec de l'intervention");
         }
         JpaUtil.fermerEntityManager();
-
         return false;
     }
 }

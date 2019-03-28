@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-/**
- *
- * @author njeanne
- */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Intervention implements Serializable {
@@ -26,8 +17,7 @@ public class Intervention implements Serializable {
     
     @ManyToOne
     private Client client;
-    
-  
+
     private Integer statut; //En attente : 0; en cours = 1; validée : 2; echec : 3
     private String description;
     private String commentaire;
@@ -36,8 +26,6 @@ public class Intervention implements Serializable {
     private Date heureD;
     @Temporal(TemporalType.DATE)
     private Date heureF;
-
-    
 
     public Intervention(String description) {
         this.statut = 0;
@@ -100,13 +88,9 @@ public class Intervention implements Serializable {
         this.employe = employe;
     }
 
-    public String getCommentaire() {
-        return commentaire;
-    }
+    public String getCommentaire() { return commentaire; }
 
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
-    }
+    public void setCommentaire(String commentaire) { this.commentaire = commentaire; }
 
     @Override
     public String toString() {

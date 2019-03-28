@@ -56,10 +56,13 @@ public class ServiceAffichage {
         notificationWriter.print("Intervention de type ");
         if (i instanceof Animal){
             notificationWriter.print("Animal");
+            notificationWriter.println("  animal : "+((Animal) i).getAnimal());
         }
         else if (i instanceof Livraison)
         {
             notificationWriter.print("Livraison");
+            notificationWriter.println("  colis : "+((Livraison) i).getObjet());
+            notificationWriter.println("  entreprise : "+((Livraison) i).getEntreprise());
         }
         else
         {
@@ -76,7 +79,6 @@ public class ServiceAffichage {
                 i.getEmploye().getNum(),
                 message.toString()
         );
-
     }
 
     public void envoieNotifClient(Intervention i)
@@ -85,14 +87,17 @@ public class ServiceAffichage {
         PrintWriter notificationWriter = new PrintWriter(message);
 
         notificationWriter.println("Votre demande d'intervention du  "+i.getHeureD());
-        notificationWriter.print(" a été cloturée à  "+i.getHeureF()+". ");
+        notificationWriter.print(" a été cloturée à  "+i.getHeureF()+" par ");
+        if(i.getStatut() == 2)
+            notificationWriter.print("une réussite. <<");
+        else
+            notificationWriter.print("un echec. <<");
         notificationWriter.print(i.getCommentaire());
-        notificationWriter.print(" Cordialement, " + i.getEmploye().getPrenom());
+        notificationWriter.print(">> Cordialement, " + i.getEmploye().getPrenom());
 
         Message.envoyerNotification(
                 i.getClient().getNum(),
                 message.toString()
         );
-
     }
 }
