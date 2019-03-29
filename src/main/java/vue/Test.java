@@ -142,6 +142,11 @@ public class Test {
                 new Client("Margaux","P", "Mme", "07/08/2010", "5 avenue albert " +
                         "einstein, Villeurbanne", "0658889900", "maca@gmail.com", "aedi"));
 
+        DebugLogger.log("Inscription d'un autre client avec le meme email");
+        s.inscrireClient(
+                new Client("Marie","M", "Mme", "07/10/2010", "30 avenue albert " +
+                        "einstein, Villeurbanne", "0658909900", "maca@gmail.com", "kk"));
+
         //////////////TESTS DE CONNEXION///////////////////////// 
         DebugLogger.log("Test de connexion avec un mot de passe incorrect");
         current = s.connexionClient("maca@gmail.com", "abc");
